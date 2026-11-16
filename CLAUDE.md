@@ -20,12 +20,12 @@ El flujo de trabajo usa Spec Kit (skills `speckit-*` en `.claude/skills/`, scrip
 ```bash
 npm start                                   # = node server.js → http://localhost:3000
 node scripts/remesa_mensual.js 2026-06      # remesa mensual: GRABA facturas en la BD
-node --test                                 # ejecutar tests de caracterización (node:test)
+npm test                                    # = node --test: red de caracterización completa
 node --test ruta/al/fichero.test.js         # un único fichero de test
 node --test --test-name-pattern="texto"     # tests cuyo nombre coincide
 ```
 
-No hay linter, build ni tests todavía. Node local: v24; `LEEME.txt` habla de Node 8 en la oficina y `node:test` requiere Node ≥ 18 (versión real de producción pendiente de confirmar: SUPOSICIÓN).
+Los tests de caracterización viven en `pruebas/caracterizacion/` (no en `test/`, para que `node --test` no ejecute las ayudas como tests). Trabajan siempre sobre copias temporales de la BD con reloj y zona horaria fijos (`ayudas/entorno.js`, `ayudas/reloj.js`); índice de cobertura en su `LEEME.md`. El golden master (`golden-master/master.json`) solo se regenera con decisión de negocio escrita (`golden-master/LEEME.md`). No hay linter ni build. Node local: v24; `LEEME.txt` habla de Node 8 en la oficina y `node:test` requiere Node ≥ 18 (versión real de producción pendiente de confirmar: SUPOSICIÓN).
 
 ## Peligro: la base de datos de producción
 

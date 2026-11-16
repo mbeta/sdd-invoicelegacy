@@ -1,0 +1,1214 @@
+{
+  "casos": [
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 109
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Redondeo línea a línea con IVA mixto 21/10; vencimiento que cruza febrero (RN-01, RN-02, RN-04, RN-18, A-17)",
+      "facturas": [
+        {
+          "base": 101,
+          "cliente_id": 1,
+          "estado": "emitida",
+          "fecha": "2026-01-31",
+          "id": 10,
+          "iva": 17.51,
+          "lineas": [
+            {
+              "base": 9.8,
+              "cantidad": 1,
+              "cuota_iva": 0.98,
+              "cuota_recargo": 0,
+              "descripcion": "Azúcar blanquilla 10kg",
+              "precio": 9.8,
+              "tipo_iva": 10
+            },
+            {
+              "base": 23.9,
+              "cantidad": 2,
+              "cuota_iva": 2.39,
+              "cuota_recargo": 0,
+              "descripcion": "Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": 57.8,
+              "cantidad": 2,
+              "cuota_iva": 12.14,
+              "cuota_recargo": 0,
+              "descripcion": "Plato llano hostelería 25cm (caja 12)",
+              "precio": 28.9,
+              "tipo_iva": 21
+            },
+            {
+              "base": 9.5,
+              "cantidad": 0.44,
+              "cuota_iva": 2,
+              "cuota_recargo": 0,
+              "descripcion": "Vaso caña 20cl (caja 72)",
+              "precio": 21.6,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000109",
+          "observaciones": "Pedido enero",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 118.51,
+          "vencimiento": "2026-03-02"
+        }
+      ],
+      "id": "GM-01",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "0,44",
+              "2",
+              "1",
+              "2"
+            ],
+            "cliente_id": "1",
+            "desc": [
+              "Vaso caña 20cl (caja 72)",
+              "Café en grano natural 1kg",
+              "Azúcar blanquilla 10kg",
+              "Plato llano hostelería 25cm (caja 12)"
+            ],
+            "fecha": "2026-01-31",
+            "iva": [
+              "21",
+              "10",
+              "10",
+              "21"
+            ],
+            "obs": "Pedido enero",
+            "precio": [
+              "21,60",
+              "11,95",
+              "9,80",
+              "28,90"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/10"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 110
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Cliente en recargo; tipos vigentes, antiguos (16, 7) y fuera de tabla (5) (RN-03, RN-06, RN-07, A-14, A-16)",
+      "facturas": [
+        {
+          "base": 369.55,
+          "cliente_id": 2,
+          "estado": "emitida",
+          "fecha": "2026-02-06",
+          "id": 11,
+          "iva": 41.78,
+          "lineas": [
+            {
+              "base": 11.95,
+              "cantidad": 1,
+              "cuota_iva": 1.2,
+              "cuota_recargo": 0.17,
+              "descripcion": "Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": 74,
+              "cantidad": 4,
+              "cuota_iva": 15.54,
+              "cuota_recargo": 3.85,
+              "descripcion": "Desengrasante cocinas 10L",
+              "precio": 18.5,
+              "tipo_iva": 21
+            },
+            {
+              "base": 113.6,
+              "cantidad": 8,
+              "cuota_iva": 4.54,
+              "cuota_recargo": 0.57,
+              "descripcion": "Harina panificable 25kg",
+              "precio": 14.2,
+              "tipo_iva": 4
+            },
+            {
+              "base": 100,
+              "cantidad": 1,
+              "cuota_iva": 16,
+              "cuota_recargo": 4,
+              "descripcion": "Tipo antiguo 16",
+              "precio": 100,
+              "tipo_iva": 16
+            },
+            {
+              "base": 50,
+              "cantidad": 1,
+              "cuota_iva": 3.5,
+              "cuota_recargo": 0.5,
+              "descripcion": "Tipo antiguo 7",
+              "precio": 50,
+              "tipo_iva": 7
+            },
+            {
+              "base": 20,
+              "cantidad": 1,
+              "cuota_iva": 1,
+              "cuota_recargo": 0,
+              "descripcion": "Tipo superreducido 5",
+              "precio": 20,
+              "tipo_iva": 5
+            }
+          ],
+          "numero": "FA-2026-000110",
+          "observaciones": "",
+          "recargo": 9.09,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 420.42,
+          "vencimiento": "2026-03-08"
+        }
+      ],
+      "id": "GM-02",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "4",
+              "8",
+              "1",
+              "1",
+              "1",
+              "1"
+            ],
+            "cliente_id": "2",
+            "desc": [
+              "Desengrasante cocinas 10L",
+              "Harina panificable 25kg",
+              "Café en grano natural 1kg",
+              "Tipo antiguo 16",
+              "Tipo antiguo 7",
+              "Tipo superreducido 5"
+            ],
+            "fecha": "2026-02-06",
+            "iva": [
+              "21",
+              "4",
+              "10",
+              "16",
+              "7",
+              "5"
+            ],
+            "obs": "",
+            "precio": [
+              "18,50",
+              "14,20",
+              "11,95",
+              "100",
+              "50",
+              "20"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/11"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 111
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Frontera de descuento: base bruta 1.000,00 exacta, sin descuento; cliente a 60 días (RN-09, A-10, RN-18)",
+      "facturas": [
+        {
+          "base": 1000,
+          "cliente_id": 5,
+          "estado": "emitida",
+          "fecha": "2026-02-20",
+          "id": 12,
+          "iva": 210,
+          "lineas": [
+            {
+              "base": 1000,
+              "cantidad": 1,
+              "cuota_iva": 210,
+              "cuota_recargo": 0,
+              "descripcion": "Mercancía variada",
+              "precio": 1000,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000111",
+          "observaciones": "Base justa",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 1210,
+          "vencimiento": "2026-04-21"
+        }
+      ],
+      "id": "GM-03",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "1"
+            ],
+            "cliente_id": "5",
+            "desc": [
+              "Mercancía variada"
+            ],
+            "fecha": "2026-02-20",
+            "iva": [
+              "21"
+            ],
+            "obs": "Base justa",
+            "precio": [
+              "1000"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/12"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 112
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Justo encima del umbral: 1.000,01 → 2 % rebajando el precio; anotación con espacio inicial (RN-11, RN-13, A-09, A-11)",
+      "facturas": [
+        {
+          "base": 980.01,
+          "cliente_id": 5,
+          "estado": "emitida",
+          "fecha": "2026-02-20",
+          "id": 13,
+          "iva": 205.8,
+          "lineas": [
+            {
+              "base": 980.01,
+              "cantidad": 1,
+              "cuota_iva": 205.8,
+              "cuota_recargo": 0,
+              "descripcion": "Mercancía variada",
+              "precio": 980.01,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000112",
+          "observaciones": " Descuento volumen 2% aplicado",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 1185.81,
+          "vencimiento": "2026-04-21"
+        }
+      ],
+      "id": "GM-04",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "1"
+            ],
+            "cliente_id": "5",
+            "desc": [
+              "Mercancía variada"
+            ],
+            "fecha": "2026-02-20",
+            "iva": [
+              "21"
+            ],
+            "obs": "",
+            "precio": [
+              "1000,01"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/13"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 113
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "No monotonía (1/2): 182 aceites → 2 % (RN-12, A-09)",
+      "facturas": [
+        {
+          "base": 4895.8,
+          "cliente_id": 3,
+          "estado": "emitida",
+          "fecha": "2026-03-31",
+          "id": 14,
+          "iva": 195.83,
+          "lineas": [
+            {
+              "base": 4895.8,
+              "cantidad": 182,
+              "cuota_iva": 195.83,
+              "cuota_recargo": 0,
+              "descripcion": "Aceite de oliva virgen extra 5L",
+              "precio": 26.9,
+              "tipo_iva": 4
+            }
+          ],
+          "numero": "FA-2026-000113",
+          "observaciones": " Descuento volumen 2% aplicado",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 5091.63,
+          "vencimiento": "2026-05-30"
+        }
+      ],
+      "id": "GM-05",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "182"
+            ],
+            "cliente_id": "3",
+            "desc": [
+              "Aceite de oliva virgen extra 5L"
+            ],
+            "fecha": "2026-03-31",
+            "iva": [
+              "4"
+            ],
+            "obs": "",
+            "precio": [
+              "27,45"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/14"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 114
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "No monotonía (2/2): 183 aceites → 5 %, total menor que con 182; observación existente + anotación (RN-12, RN-13, A-09)",
+      "facturas": [
+        {
+          "base": 4772.64,
+          "cliente_id": 3,
+          "estado": "emitida",
+          "fecha": "2026-03-31",
+          "id": 15,
+          "iva": 190.91,
+          "lineas": [
+            {
+              "base": 4772.64,
+              "cantidad": 183,
+              "cuota_iva": 190.91,
+              "cuota_recargo": 0,
+              "descripcion": "Aceite de oliva virgen extra 5L",
+              "precio": 26.08,
+              "tipo_iva": 4
+            }
+          ],
+          "numero": "FA-2026-000114",
+          "observaciones": "Pedido temporada Descuento volumen 5% aplicado",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 4963.55,
+          "vencimiento": "2026-05-30"
+        }
+      ],
+      "id": "GM-06",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "183"
+            ],
+            "cliente_id": "3",
+            "desc": [
+              "Aceite de oliva virgen extra 5L"
+            ],
+            "fecha": "2026-03-31",
+            "iva": [
+              "4"
+            ],
+            "obs": "Pedido temporada",
+            "precio": [
+              "27,45"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/15"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 115
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Coma flotante (81,585 → 81,58; 65,725 → 65,72) y línea negativa asimétrica (−19,42) en FA (RN-05, A-15, A-18)",
+      "facturas": [
+        {
+          "base": 953.25,
+          "cliente_id": 1,
+          "estado": "emitida",
+          "fecha": "2026-03-20",
+          "id": 16,
+          "iva": 127.88,
+          "lineas": [
+            {
+              "base": -92.5,
+              "cantidad": -1,
+              "cuota_iva": -19.42,
+              "cuota_recargo": 0,
+              "descripcion": "Abono envases",
+              "precio": 92.5,
+              "tipo_iva": 21
+            },
+            {
+              "base": 657.25,
+              "cantidad": 55,
+              "cuota_iva": 65.72,
+              "cuota_recargo": 0,
+              "descripcion": "Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": 388.5,
+              "cantidad": 21,
+              "cuota_iva": 81.58,
+              "cuota_recargo": 0,
+              "descripcion": "Desengrasante cocinas 10L",
+              "precio": 18.5,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000115",
+          "observaciones": "",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 1081.13,
+          "vencimiento": "2026-04-19"
+        }
+      ],
+      "id": "GM-07",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              "21",
+              "55",
+              "-1"
+            ],
+            "cliente_id": "1",
+            "desc": [
+              "Desengrasante cocinas 10L",
+              "Café en grano natural 1kg",
+              "Abono envases"
+            ],
+            "fecha": "2026-03-20",
+            "iva": [
+              "21",
+              "10",
+              "21"
+            ],
+            "obs": "",
+            "precio": [
+              "18,50",
+              "11,95",
+              "92,50"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/16"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 116
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Entrada del formulario: «1.234,56», «1,5», fila sin descripción descartada, fecha vacía → hoy; cliente de baja (RN-14, RN-15, RN-16, RN-17, A-05, A-07)",
+      "facturas": [
+        {
+          "base": 16.23,
+          "cliente_id": 6,
+          "estado": "emitida",
+          "fecha": "2026-11-16",
+          "id": 17,
+          "iva": 1.76,
+          "lineas": [
+            {
+              "base": 15,
+              "cantidad": 1.5,
+              "cuota_iva": 1.5,
+              "cuota_recargo": 0,
+              "descripcion": "Cantidad con coma",
+              "precio": 10,
+              "tipo_iva": 10
+            },
+            {
+              "base": 1.23,
+              "cantidad": 1,
+              "cuota_iva": 0.26,
+              "cuota_recargo": 0,
+              "descripcion": "Precio con miles",
+              "precio": 1.234,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000116",
+          "observaciones": "",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 17.99,
+          "vencimiento": "2026-12-16"
+        }
+      ],
+      "id": "GM-08",
+      "operaciones": [
+        {
+          "campos": {},
+          "metodo": "POST",
+          "ruta": "/clientes/6/baja"
+        },
+        {
+          "campos": {
+            "cant": [
+              "1",
+              "3",
+              "1,5"
+            ],
+            "cliente_id": "6",
+            "desc": [
+              "Precio con miles",
+              "",
+              "Cantidad con coma"
+            ],
+            "fecha": "",
+            "iva": [
+              "21",
+              "21",
+              "10"
+            ],
+            "obs": "",
+            "precio": [
+              "1.234,56",
+              "99",
+              "10"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/clientes"
+        },
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/17"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 117
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Error al grabar: cantidad vacía → 500 y número consumido (hueco) (RN-24, A-22)",
+      "facturas": [],
+      "id": "GM-09",
+      "operaciones": [
+        {
+          "campos": {
+            "cant": [
+              ""
+            ],
+            "cliente_id": "1",
+            "desc": [
+              "Portes y manipulación"
+            ],
+            "fecha": "2026-04-01",
+            "iva": [
+              "21"
+            ],
+            "obs": "",
+            "precio": [
+              "6"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 500,
+          "texto": "Error al grabar: SQLITE_CONSTRAINT: NOT NULL constraint failed: facturas.base",
+          "ubicacion": null
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 118
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 1
+        }
+      ],
+      "ejercita": "Cliente con 0 días de pago → 30; fecha no ISO que pierde un día en octubre; número tras el hueco (A-21, A-36, A-38, RN-19)",
+      "facturas": [
+        {
+          "base": 29.4,
+          "cliente_id": 7,
+          "estado": "emitida",
+          "fecha": "2026/10/20",
+          "id": 18,
+          "iva": 2.94,
+          "lineas": [
+            {
+              "base": 29.4,
+              "cantidad": 3,
+              "cuota_iva": 2.94,
+              "cuota_recargo": 0,
+              "descripcion": "Azúcar blanquilla 10kg",
+              "precio": 9.8,
+              "tipo_iva": 10
+            }
+          ],
+          "numero": "FA-2026-000118",
+          "observaciones": "",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 32.34,
+          "vencimiento": "2026-11-18"
+        }
+      ],
+      "id": "GM-10",
+      "operaciones": [
+        {
+          "campos": {
+            "dias_pago": "0",
+            "nif": "12345678-Z",
+            "nombre": "Kiosco El Contado"
+          },
+          "metodo": "POST",
+          "ruta": "/clientes/nuevo"
+        },
+        {
+          "campos": {
+            "cant": [
+              "3"
+            ],
+            "cliente_id": "7",
+            "desc": [
+              "Azúcar blanquilla 10kg"
+            ],
+            "fecha": "2026/10/20",
+            "iva": [
+              "10"
+            ],
+            "obs": "",
+            "precio": [
+              "9,80"
+            ]
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/nueva"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/clientes"
+        },
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/18"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 118
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 2
+        }
+      ],
+      "ejercita": "Ciclo completo de GM-01: cobro y rectificación con motivo; espejo sin recalcular, fecha de hoy, pierde la marca de cobro (RN-27, RN-28, RN-29, A-28, A-29, A-33)",
+      "facturas": [
+        {
+          "base": 101,
+          "cliente_id": 1,
+          "estado": "rectificada",
+          "fecha": "2026-01-31",
+          "id": 10,
+          "iva": 17.51,
+          "lineas": [
+            {
+              "base": 9.8,
+              "cantidad": 1,
+              "cuota_iva": 0.98,
+              "cuota_recargo": 0,
+              "descripcion": "Azúcar blanquilla 10kg",
+              "precio": 9.8,
+              "tipo_iva": 10
+            },
+            {
+              "base": 23.9,
+              "cantidad": 2,
+              "cuota_iva": 2.39,
+              "cuota_recargo": 0,
+              "descripcion": "Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": 57.8,
+              "cantidad": 2,
+              "cuota_iva": 12.14,
+              "cuota_recargo": 0,
+              "descripcion": "Plato llano hostelería 25cm (caja 12)",
+              "precio": 28.9,
+              "tipo_iva": 21
+            },
+            {
+              "base": 9.5,
+              "cantidad": 0.44,
+              "cuota_iva": 2,
+              "cuota_recargo": 0,
+              "descripcion": "Vaso caña 20cl (caja 72)",
+              "precio": 21.6,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000109",
+          "observaciones": "Pedido enero",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 118.51,
+          "vencimiento": "2026-03-02"
+        },
+        {
+          "base": -101,
+          "cliente_id": 1,
+          "estado": "emitida",
+          "fecha": "2026-11-16",
+          "id": 19,
+          "iva": -17.51,
+          "lineas": [
+            {
+              "base": -9.8,
+              "cantidad": -1,
+              "cuota_iva": -0.98,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Azúcar blanquilla 10kg",
+              "precio": 9.8,
+              "tipo_iva": 10
+            },
+            {
+              "base": -23.9,
+              "cantidad": -2,
+              "cuota_iva": -2.39,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": -57.8,
+              "cantidad": -2,
+              "cuota_iva": -12.14,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Plato llano hostelería 25cm (caja 12)",
+              "precio": 28.9,
+              "tipo_iva": 21
+            },
+            {
+              "base": -9.5,
+              "cantidad": -0.44,
+              "cuota_iva": -2,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Vaso caña 20cl (caja 72)",
+              "precio": 21.6,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "RE-2026-000002",
+          "observaciones": "Rectifica FA-2026-000109. Error en cantidades",
+          "recargo": 0,
+          "rectifica_a": "FA-2026-000109",
+          "serie": "RE",
+          "total": -118.51,
+          "vencimiento": null
+        }
+      ],
+      "id": "GM-11",
+      "operaciones": [
+        {
+          "campos": {},
+          "metodo": "POST",
+          "ruta": "/facturas/@GM-01/cobrar"
+        },
+        {
+          "campos": {
+            "motivo": "Error en cantidades"
+          },
+          "metodo": "POST",
+          "ruta": "/facturas/@GM-01/rectificar"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/10"
+        },
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/19"
+        }
+      ]
+    },
+    {
+      "contadores": [
+        {
+          "anyo": 2026,
+          "serie": "FA",
+          "ultimo": 118
+        },
+        {
+          "anyo": 2026,
+          "serie": "RE",
+          "ultimo": 3
+        }
+      ],
+      "ejercita": "Rectificación de la histórica FA-2026-000105 (descuadrada): la RE copia el descuadre; segunda rectificación rechazada (A-01, A-29, RN-30)",
+      "facturas": [
+        {
+          "base": 2287.75,
+          "cliente_id": 3,
+          "estado": "rectificada",
+          "fecha": "2026-03-31",
+          "id": 5,
+          "iva": 468.63,
+          "lineas": [
+            {
+              "base": 658.8,
+              "cantidad": 24,
+              "cuota_iva": 26.35,
+              "cuota_recargo": 0,
+              "descripcion": "Aceite de oliva virgen extra 5L",
+              "precio": 27.45,
+              "tipo_iva": 4
+            },
+            {
+              "base": 358.5,
+              "cantidad": 30,
+              "cuota_iva": 35.85,
+              "cuota_recargo": 0,
+              "descripcion": "Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": 145,
+              "cantidad": 1,
+              "cuota_iva": 30.45,
+              "cuota_recargo": 0,
+              "descripcion": "Mantenimiento cámaras frigoríficas (marzo)",
+              "precio": 145,
+              "tipo_iva": 21
+            },
+            {
+              "base": 1156,
+              "cantidad": 40,
+              "cuota_iva": 242.76,
+              "cuota_recargo": 0,
+              "descripcion": "Plato llano hostelería 25cm (caja 12)",
+              "precio": 28.9,
+              "tipo_iva": 21
+            },
+            {
+              "base": 17.2,
+              "cantidad": 2.87,
+              "cuota_iva": 3.61,
+              "cuota_recargo": 0,
+              "descripcion": "Portes y manipulación",
+              "precio": 6,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "FA-2026-000105",
+          "observaciones": "Descuento volumen 2% aplicado",
+          "recargo": 0,
+          "rectifica_a": null,
+          "serie": "FA",
+          "total": 2756.38,
+          "vencimiento": "2026-05-30"
+        },
+        {
+          "base": -2287.75,
+          "cliente_id": 3,
+          "estado": "emitida",
+          "fecha": "2026-11-16",
+          "id": 20,
+          "iva": -468.63,
+          "lineas": [
+            {
+              "base": -658.8,
+              "cantidad": -24,
+              "cuota_iva": -26.35,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Aceite de oliva virgen extra 5L",
+              "precio": 27.45,
+              "tipo_iva": 4
+            },
+            {
+              "base": -358.5,
+              "cantidad": -30,
+              "cuota_iva": -35.85,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Café en grano natural 1kg",
+              "precio": 11.95,
+              "tipo_iva": 10
+            },
+            {
+              "base": -145,
+              "cantidad": -1,
+              "cuota_iva": -30.45,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Mantenimiento cámaras frigoríficas (marzo)",
+              "precio": 145,
+              "tipo_iva": 21
+            },
+            {
+              "base": -1156,
+              "cantidad": -40,
+              "cuota_iva": -242.76,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Plato llano hostelería 25cm (caja 12)",
+              "precio": 28.9,
+              "tipo_iva": 21
+            },
+            {
+              "base": -17.2,
+              "cantidad": -2.87,
+              "cuota_iva": -3.61,
+              "cuota_recargo": 0,
+              "descripcion": "Rectificación: Portes y manipulación",
+              "precio": 6,
+              "tipo_iva": 21
+            }
+          ],
+          "numero": "RE-2026-000003",
+          "observaciones": "Rectifica FA-2026-000105. ",
+          "recargo": 0,
+          "rectifica_a": "FA-2026-000105",
+          "serie": "RE",
+          "total": -2756.38,
+          "vencimiento": null
+        }
+      ],
+      "id": "GM-12",
+      "operaciones": [
+        {
+          "campos": {},
+          "metodo": "POST",
+          "ruta": "/facturas/5/rectificar"
+        },
+        {
+          "campos": {},
+          "metodo": "POST",
+          "ruta": "/facturas/5/rectificar"
+        }
+      ],
+      "respuestas": [
+        {
+          "estado": 302,
+          "texto": null,
+          "ubicacion": "/facturas/20"
+        },
+        {
+          "estado": 400,
+          "texto": "Ya esta rectificada",
+          "ubicacion": null
+        }
+      ]
+    }
+  ],
+  "entorno": {
+    "bd_origen_sha1": "0535fde925d01cc39e5307ef6c1044f8d722a7b6",
+    "reloj": "2026-11-16T10:00:00+01:00",
+    "zona_horaria": "Europe/Madrid"
+  },
+  "formato": 1,
+  "regeneracion": {
+    "decision": "Generación inicial de la red de caracterización (fase 000, 2026-11-16): congela el comportamiento actual, sin cambios de negocio",
+    "fecha": "2026-11-16"
+  }
+}

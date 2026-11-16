@@ -1,6 +1,6 @@
 # Registro de anomalías — GesFact 2.4
 
-**Fase**: 000-reconocimiento · **Fecha**: 2026-11-16 · **Base**: commit `7713101` · **Actualizado**: 2026-11-16, propagación del [acta simulada](entrevista-negocio-simulada.md) (commit `23bb7a5`; ver §9)
+**Fase**: 000-reconocimiento · **Fecha**: 2026-11-16 · **Base**: commit `7713101` · **Actualizado**: 2026-11-16, propagación del [acta simulada](entrevista-negocio-simulada.md) (commit `23bb7a5`) y red de caracterización (A-51 a A-54); ver §9
 
 Este documento consolida en un único registro todos los hallazgos del reconocimiento y de la ingeniería inversa (constitución, principio III). **No corrige nada.** Un tratamiento «corregir en fase de modernización» es una propuesta para el módulo siguiente, que exige además una decisión escrita del negocio (principio I).
 
@@ -26,6 +26,7 @@ El [Anexo A](#anexo-a--trazabilidad-de-las-fuentes) asigna cada identificador de
 ### 0.2 Los tres testigos
 
 - **CÓDIGO**: fichero y líneas. Los comentarios del código (por ejemplo, «acordado con Paco en 2018») **cuentan como CÓDIGO**. Son testimonio escrito e indirecto del programador y no llevan fecha exacta. La constitución (principio II) solo admite como testimonio de negocio el de la persona, con nombre y fecha.
+  - La viñeta **EJECUCIÓN** (desde la red de caracterización) remite al test de `pruebas/caracterizacion/` que reproduce el comportamiento. Es evidencia de CÓDIGO, no un cuarto testigo.
 - **DATOS**: consulta en solo lectura sobre una copia de `datos/gesfact.db` (SHA-1 `0535fde9…`, idéntica a la original) y su resultado. Cada anomalía lleva uno de estos veredictos:
   - **A FAVOR**: los datos muestran el comportamiento y lo respaldan.
   - **EN CONTRA**: los datos lo contradicen.
@@ -572,6 +573,7 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 - **Evidencia:**
   - **CÓDIGO:** `lib/numeracion.js:8-10` («no ha vuelto a pasar (creo)», D6), `:14-36`; `db.js:52`. El único índice es `sqlite_autoindex_contadores_1` (QD11).
   - **DATOS:** NEUTRO. No hay números duplicados (QD8).
+  - **EJECUCIÓN (caracterización, 2026-11-16):** tres llamadas simultáneas a `siguienteNumero('FA')` en el mismo proceso reciben las tres `FA-2026-000109`, y el contador solo avanza a 109. Es reproducible en todas las ejecuciones (`pruebas/caracterizacion/numeracion.test.js`). Ver también A-52 y A-54.
   - **NEGOCIO:** ninguno (H6 y H19 son testimonio indirecto).
     - [acta simulada](entrevista-negocio-simulada.md), P34, en el papel de Marga, 2026-11-16: «Grabamos Paco y yo, a veces a la vez». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Clasificación ya cerrada; la condición de la carrera (dos puestos simultáneos) se da en la práctica.
 - **Clasificación: BUG A SECAS.**
@@ -731,6 +733,36 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 - **Decisión pendiente (Marga):** respuesta a la pregunta.
 - **Impacto:** facturas no deducibles para el cliente, que obligan a rectificar.
 - **Fuentes:** RN-47, R15, H5, H31, mapa A9.
+
+### A-52 · La primera factura del año pedida dos veces a la vez hace fallar una de las dos (nueva, de la caracterización)
+
+- **Descripción:** cuando no existe el contador de una serie para el año en curso, `siguienteNumero` lo crea con un `INSERT`. Si dos peticiones llegan a la vez (dos puestos el primer día laborable de enero, o el alta y la remesa), las dos intentan crearlo: la primera obtiene el número `…-000001` y la segunda falla con `SQLITE_CONSTRAINT: UNIQUE constraint failed: contadores.serie, contadores.anyo`. En el alta manual, ese error se convierte en un 500 «Error numeracion: …» (`routes/facturas.js:72`); en la remesa, en `process.exit(1)` a mitad de lote (`scripts/remesa_mensual.js:58`).
+- **Evidencia:**
+  - **CÓDIGO:** `lib/numeracion.js:16-24` (lectura y `INSERT` sin control); `db.js:76-81` (clave primaria `serie, anyo`). R3 ya decía que «el alta del primer contador del año también compite», sin la consecuencia.
+  - **DATOS:** NEUTRO. La copia solo tiene contadores de 2026 (QD1).
+  - **EJECUCIÓN:** `pruebas/caracterizacion/numeracion.test.js`, test «la primera numeración de un año pedida dos veces a la vez hace fallar una con SQLITE_CONSTRAINT», sobre una copia de la BD y con el reloj en 2028-01-03. Resultado estable: `['FA-2028-000001', 'ERROR: SQLITE_CONSTRAINT: …']`.
+  - **NEGOCIO:** ninguno.
+- **Clasificación: BUG A SECAS.** El CÓDIGO demuestra el mecanismo y nadie depende de que una petición falle.
+- **Dependientes:** nadie identificado.
+- **Tratamiento:** **corregir en fase de modernización**, junto con A-23. **No es retroactivo.**
+- **Decisión pendiente:** ninguna.
+- **Impacto:** una alta rechazada (se repite y funciona) o una remesa de enero cortada a mitad, con el riesgo de relanzarla y duplicar (A-03).
+- **Fuentes:** R3, RN-22, A-23, A-03.
+
+### A-54 · El doble clic en «Rectificar» crea dos rectificativas con el MISMO número (nueva, de la caracterización)
+
+- **Descripción:** A-24 registra que un doble clic crea dos rectificativas de la misma factura. Al ejecutarlo se ha visto además que las dos reciben **el mismo número** (`RE-2026-000004` dos veces): las dos peticiones leen el contador antes de que ninguna lo actualice (A-23). Resultan dos abonos al cliente, con un número de serie RE duplicado, y la original queda `rectificada`.
+- **Evidencia:**
+  - **CÓDIGO:** `routes/facturas.js:132` (comprobación), `:138` (numeración), `:154` (cambio de estado); `lib/numeracion.js:16`, `:32`.
+  - **DATOS:** NEUTRO. Hay una sola RE en la copia (QD1).
+  - **EJECUCIÓN:** `pruebas/caracterizacion/servidor-facturas.test.js`, tests «un doble clic crea dos rectificativas de la misma factura» y «las dos rectificativas del doble clic llevan el mismo número RE-2026-000004», con el servidor real sobre una copia. Estable en todas las ejecuciones; lo que no es estable es qué petición recibe cada `id`.
+  - **NEGOCIO:** ninguno.
+- **Clasificación: BUG A SECAS.** Combinación de A-23 y A-24, ya cerradas como BUG A SECAS.
+- **Dependientes:** nadie identificado.
+- **Tratamiento:** **corregir en fase de modernización**, junto con A-23 y A-24. **No es retroactivo.**
+- **Decisión pendiente:** ninguna.
+- **Impacto:** legal (número duplicado en una serie correlativa) y económico (abono duplicado que no se puede borrar, A-30).
+- **Fuentes:** A-23, A-24, R3, R5, flujo A3.
 
 ---
 
@@ -968,6 +1000,23 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 - **Impacto:** un ordenador nuevo queda con dependencias vulnerables o sin arrancar.
 - **Fuentes:** R18, H14, mapa A10, mapa S1.
 
+### A-53 · Un error no controlado devuelve al navegador la traza completa, con rutas del servidor (nueva, de la caracterización)
+
+- **Descripción:** cuando una ruta lanza una excepción que no captura, Express responde 500 con su página de error por defecto, que incluye el mensaje y la **traza completa** con las rutas de los ficheros del servidor (por ejemplo `…\routes\informes.js:18:36`). Ocurre porque no hay manejador de errores propio ni `NODE_ENV=production`. El caso reproducido es el resumen de IVA con `?trimestre=5` (RN-42), pero vale para cualquier excepción no capturada.
+- **Evidencia:**
+  - **CÓDIGO:** `server.js:9-42` (sin manejador de errores ni `NODE_ENV`); `routes/informes.js:16-18` (la excepción del caso reproducido); comportamiento por defecto de Express 4 (`node_modules/finalhandler`).
+  - **DATOS:** NO APLICA.
+  - **EJECUCIÓN:** `pruebas/caracterizacion/servidor-informes.test.js`, test «el error 500 no controlado devuelve la traza con rutas del servidor», con el servidor real sobre una copia.
+  - **NEGOCIO:** ninguno.
+- **Clasificación: PENDIENTE.**
+  - **Hipótesis:** ACCIDENTAL. Su gravedad depende del modelo de acceso que decida dirección (A-39).
+  - **Pregunta que lo desbloquea (dirección):** la misma de A-39: «¿Desde dónde se accede a GesFact y quién puede llegar al puerto 3000?»
+- **Dependientes:** nadie identificado.
+- **Tratamiento:** **corregir en fase de modernización**, junto con A-39. Cambiar la página de error es un cambio de respuesta HTTP: necesita decisión escrita (principio I).
+- **Decisión pendiente (dirección):** modelo de acceso (A-39).
+- **Impacto:** revela a quien llegue al servidor la estructura de carpetas y el código que falla.
+- **Fuentes:** RN-42, A-39, A-47.
+
 ---
 
 ## 6. Tramo 6 — Sin efecto económico
@@ -1016,10 +1065,11 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 - **Evidencia:**
   - **CÓDIGO:** `routes/facturas.js:85`, `:135`, `:148`; `scripts/remesa_mensual.js:26-29`.
   - **DATOS:** NEUTRO. Los `id` de las líneas de cada factura son consecutivos (QD2).
+  - **EJECUCIÓN (caracterización, 2026-11-16):** con el servidor real sobre una copia, una factura de 3 o 4 líneas graba sus líneas en un orden **distinto del formulario, y distinto de una ejecución a otra** (observados, entre otros, 1-4-3-2 y 1-3-2-4). Esto **refuta la suposición S1** de `flujo-factura.md` («el `id` de las líneas sigue el orden del formulario»). Con 1 o 2 líneas no se ha observado desorden. La remesa, en cambio, procesó los contratos por `id` en todas las ejecuciones (`pruebas/caracterizacion/remesa.test.js`).
   - **NEGOCIO:** ninguno.
 - **Clasificación: ACCIDENTAL.**
-- **Dependientes:** nadie identificado.
-- **Tratamiento:** **documentar sin especificar**. Los tests de caracterización no deben depender de ese orden.
+- **Dependientes:** nadie identificado. **Ojo:** el detalle imprime las líneas por `id` (`routes/facturas.js:109`), así que el cliente puede recibir la factura con las líneas en otro orden que el tecleado.
+- **Tratamiento:** **documentar sin especificar**. Los tests de caracterización no dependen de ese orden: comparan el conjunto de líneas ordenado por descripción.
 - **Decisión pendiente:** ninguna.
 - **Fuentes:** flujo A13, flujo S1, flujo S2, RN-38 (orden).
 
@@ -1061,6 +1111,20 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 - **Tratamiento:** **documentar sin especificar**. `datos/migracion_mysql_2018.sql` no se ejecuta nunca.
 - **Decisión pendiente (dirección):** respuesta a la pregunta.
 - **Fuentes:** R27, H10, H22, H25 (código comentado), H27, mapa S6.
+
+### A-51 · Un importe infinito se formatea como «Infinity,undefined» (nueva, de la caracterización)
+
+- **Descripción:** `formatearImporte(Infinity)` devuelve `'Infinity,undefined'` (y `'-Infinity,undefined'` en negativo): `toFixed(2)` de un infinito no tiene parte decimal. RN-46 documentaba `null`, `undefined` y `NaN` (→ `0,00`), pero no este caso. Hoy es inalcanzable: ningún cálculo divide por cero (la remesa divide por los días del mes, `scripts/remesa_mensual.js:51`).
+- **Evidencia:**
+  - **CÓDIGO:** `lib/util.js:51-58` (comprueba `isNaN`, pero `Infinity` no es `NaN`).
+  - **DATOS:** NEUTRO. Ningún importe de la copia es infinito.
+  - **EJECUCIÓN:** `pruebas/caracterizacion/util.test.js`, test «Infinity se formatea como «Infinity,undefined»».
+  - **NEGOCIO:** ninguno.
+- **Clasificación: ACCIDENTAL.**
+- **Dependientes:** nadie identificado.
+- **Tratamiento:** **documentar sin especificar**. Se puede corregir en la modernización sin efecto retroactivo.
+- **Decisión pendiente:** ninguna.
+- **Fuentes:** RN-46, A-47.
 
 ---
 
@@ -1118,15 +1182,20 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 | A-48 | **PENDIENTE** (ACCIDENTAL) | Documentar sin especificar | Descartar MySQL y albaranes (dirección) | Sin cambio; MySQL descartado, albaranes requisito (P32) |
 | A-49 | **PENDIENTE** (proceso manual del que depende la facturación) | Documentar sin especificar | Alcance y registro de las bonificaciones (Paco) | Nueva, del acta (P11, IN-2) |
 | A-50 | **PENDIENTE** (dependencia externa) | Documentar sin especificar | Fuente de verdad de los cobros (Marga, dirección) | Nueva, del acta (P27, P28, IN-3) |
+| A-51 | ACCIDENTAL | Documentar sin especificar | — | — (nueva, de la caracterización) |
+| A-52 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — (nueva, de la caracterización) |
+| A-53 | **PENDIENTE** (ACCIDENTAL) | Corregir en modernización | Modelo de acceso (dirección), como A-39 | — (nueva, de la caracterización) |
+| A-54 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — (nueva, de la caracterización) |
 
 **Recuento:**
 
-- Cerradas, **15**:
+- Cerradas, **18**:
   - 2 INTENCIONALES (A-29, A-30);
   - 1 BUG HISTÓRICO CON DEPENDIENTES (A-01);
-  - 7 BUG A SECAS (A-03, A-05, A-22 a A-26);
-  - 5 ACCIDENTALES (A-18, A-19, A-38, A-46, A-47).
-- **PENDIENTES: 35**: las 33 anteriores, más A-49 y A-50, que salen del acta simulada.
+  - 9 BUG A SECAS (A-03, A-05, A-22 a A-26, A-52, A-54);
+  - 6 ACCIDENTALES (A-18, A-19, A-38, A-46, A-47, A-51).
+- **PENDIENTES: 36**: las 33 anteriores, A-49 y A-50, que salen del acta simulada, y A-53, que sale de la caracterización.
+- A-51 a A-54 salen de la red de caracterización (§9). Se colocan al final de su tramo sin renumerar: A-52 y A-54 en el tramo 3, A-53 en el 5 y A-51 en el 6.
 - **Cerradas por el acta simulada: 0.** La columna «Propuesta» dice a qué pasaría cada una si la persona real confirma la respuesta (§9).
 
 ---
@@ -1270,6 +1339,17 @@ Cada cambio de clasificación se anota aquí con su fecha, su testigo y su motiv
   - **P26 frente a QD1:** la rectificativa por NIF erróneo no está en la copia (A-32).
   - **P02-bis frente a P15:** el abono por línea negativa contradice CN-5. Es una contradicción interna del acta (A-01).
 
+### 2026-11-16 · Red de caracterización (`pruebas/caracterizacion/`)
+
+- **Testigo aportado:** EJECUCIÓN del código real (funciones puras, servidor y remesa) sobre copias de la BD, con zona horaria de Madrid y reloj fijo. No es testimonio de negocio.
+- **Cambios de clasificación: ninguno** en las entradas existentes.
+- **Entradas nuevas:** A-51 (ACCIDENTAL), A-52 (BUG A SECAS), A-53 (PENDIENTE) y A-54 (BUG A SECAS). Son comportamientos que el reconocimiento no recogía y que han aparecido al ejecutar. Están congelados en los tests que cita cada entrada.
+- **Evidencia añadida a entradas existentes:**
+  - **A-23:** la carrera de la numeración es reproducible siempre dentro de un mismo proceso.
+  - **A-46:** el orden de grabación de las líneas cambia de una ejecución a otra con 3 o más líneas. Refuta la suposición S1 de `flujo-factura.md`.
+- **Ejemplos de `reglas-de-negocio.md` contrastados:** todos los ejemplos numéricos de RN-01 a RN-52 se han reproducido con el código actual sin ninguna discrepancia, incluidos el recuento de RN-05 (66 medios céntimos: 4 bajan, 62 suben) y el barrido E7 de C05 (868.744 de 2.000.001).
+- **Índice de qué test congela cada anomalía:** `pruebas/caracterizacion/LEEME.md`.
+
 **Cómo se aplicará un cambio real:** se añade aquí un apartado con la fecha y el nombre de la persona. Se cambia la línea de clasificación de la entrada conservando la anterior («Antes: PENDIENTE (hipótesis X) — cambio del AAAA-MM-DD, testigo …»). Por último se actualizan el §7 y el §8.
 
 ---
@@ -1384,6 +1464,14 @@ Cada identificador de las fuentes aparece aquí con la anomalía que lo recoge. 
 - CN-1 → A-13; CN-2 → A-12; CN-3 → A-07; CN-4 → A-03; CN-5 → A-15 y A-01; CN-6 → A-20; CN-7 → A-37; CN-8 → A-10.
 - PR-1 → A-21; PR-2 → A-20; PR-3 → A-22 y A-30; PR-4 → A-17 y A-31; PR-5 → A-35.
 - IN-1 → A-04; IN-2 → A-49; IN-3 → A-50; IN-4 → A-04 (memoria H36); IN-5 → A-43 (R33); IN-6 → A-14; IN-7 → A-42; IN-8 → A-48; IN-9 → A-06 (memoria H30).
+
+**Red de caracterización (`pruebas/caracterizacion/`, 2026-11-16):**
+
+- `formatearImporte(Infinity)` → A-51.
+- Primer contador del año pedido a la vez → A-52 (completa R3).
+- Traza del error 500 en el navegador → A-53.
+- Doble rectificación con el mismo número → A-54 (completa A-23 y A-24).
+- Orden de las líneas variable entre ejecuciones → A-46; refuta flujo S1.
 
 ## Anexo B · Arqueología de datos
 
