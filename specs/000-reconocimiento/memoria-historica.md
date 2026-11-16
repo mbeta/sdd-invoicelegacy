@@ -1,6 +1,6 @@
 # Memoria histórica — GesFact 2.4
 
-**Fase**: 000-reconocimiento · **Fecha**: 2026-11-16 · **Base**: commit `17e0ba0`
+**Fase**: 000-reconocimiento · **Fecha**: 2026-11-16 · **Base**: commit `17e0ba0` · **Actualizado**: 2026-11-16 con el acta simulada (H36-H41 y anotaciones; todo SUPOSICIÓN)
 
 Esta es la cronología de incidentes, decisiones de negocio, advertencias de «no tocar» y trabajos abandonados que mencionan los comentarios del proyecto: código, vistas, CSS, `LEEME.txt`, el volcado SQL y los datos semilla de `db.js`. No propone cambios.
 
@@ -268,6 +268,69 @@ Esta es la cronología de incidentes, decisiones de negocio, advertencias de «n
 - **Implicados:** no consta.
 - **Evidencia:** `db.js:156` («ERROR cuota duplicada, ver RE-2026-000001»), `:160`, `:164`.
 - **Pregunta al negocio:** Marga, ¿qué duplicó la cuota (¿la remesa lanzada dos veces?) y cómo se detectó?
+
+## Entradas del acta simulada (2026-11-16)
+
+Estas entradas no salen de los comentarios del proyecto. Salen del [acta de entrevista simulada](entrevista-negocio-simulada.md), en la que el analista respondió en el papel de cada persona. **Son SUPOSICIÓN**: valen menos que el testimonio escrito de las entradas H1-H35 y no son hechos confirmados. Cada una lleva la pregunta del acta y, cuando existe, la evidencia de código o datos que la respalda o la contradice.
+
+### H36 · Antes de 2026 — Versión anterior del script de remesas, que agrupaba por cliente
+
+- **Qué quedó a medias:** según el acta, una versión anterior de `remesa_mensual.js` agrupaba los contratos de un cliente en una sola factura con varias líneas. La versión actual hace una factura y una línea por contrato.
+- **Implicados:** Julián (y Roberto, autor del script según H20).
+- **Evidencia:** [acta simulada](entrevista-negocio-simulada.md) P04, IN-4 (**SUPOSICIÓN**). Compatible con `FA-2026-000101` («Remesa enero», varias líneas) frente a `scripts/remesa_mensual.js:53-62` (una línea). Ver A-04.
+- **Pregunta al negocio:** Julián, ¿se conserva esa versión? ¿Cuándo se cambió y por qué?
+
+### H37 · Enero de 2026 — La remesa de diciembre de 2025 sale con número de 2026
+
+- **Qué pasó:** según el acta, la remesa de diciembre de 2025 se lanzó el primer día laborable de enero y sus facturas llevan número `FA-2026-…` con fecha de 2025.
+- **Implicados:** Marga (lanzamiento), Puri (las declaró en el 4T de 2025).
+- **Evidencia:** [acta simulada](entrevista-negocio-simulada.md) P20 (**SUPOSICIÓN**). Mecanismo en `lib/numeracion.js:15`. No se puede comprobar en los datos: la copia no tiene `FA-2026-000001` a `-000100` (registro de anomalías, QD23). Ver A-20.
+- **Pregunta al negocio:** Puri, ¿qué números exactos? ¿Se van a rectificar o se deja constancia con una nota?
+
+### H38 · Febrero de 2026 — Primer mes gratis a Bar Nuevo Siglo
+
+- **Qué se decidió:** según el acta, Paco no le cobró a Bar Nuevo Siglo el mes parcial del alta (desde el 15/02/2026) por ser cliente nuevo. La decisión no está en el programa.
+- **Implicados:** Paco, Marga.
+- **Evidencia:** [acta simulada](entrevista-negocio-simulada.md) P11, IN-2 (**SUPOSICIÓN**). La remesa no tiene excepciones (`scripts/remesa_mensual.js:26-29`, `:43-51`). La falta de factura de febrero no lo confirma, porque la copia carece de muchas otras remesas (QD24). Ver A-49.
+- **Pregunta al negocio:** Marga y Julián, ¿cómo se evitó que la remesa lo facturase?
+
+### H39 · Sin fecha — Factura devuelta por un NIF erróneo
+
+- **Qué pasó:** según el acta, un cliente devolvió una factura porque el NIF estaba mal y se corrigió con una rectificativa.
+- **Implicados:** Marga.
+- **Evidencia:** [acta simulada](entrevista-negocio-simulada.md) P26 (**SUPOSICIÓN**). La única rectificativa de la copia es por una cuota duplicada (`RE-2026-000001`), así que esta no está en la BD versionada. Relacionada con H5 y H31. Ver A-32.
+- **Pregunta al negocio:** Marga, ¿qué factura fue y cuándo?
+
+### H40 · 2022 — Cambio de la contraseña del buzón de facturación
+
+- **Qué pasó:** según el acta, Manoli cambió en 2022 la contraseña del buzón de Arsys. La de `config.js` es la anterior. Coincide en el tiempo con el fallo del envío (H23).
+- **Implicados:** Manoli.
+- **Evidencia:** [acta simulada](entrevista-negocio-simulada.md) P31 (**SUPOSICIÓN**); `config.js:29-34`; `services/email.js:3-4`. Ver A-35 y A-40.
+- **Pregunta al negocio:** Manoli, ¿el cambio de contraseña es la causa de que el envío dejara de funcionar? ¿Se usaba en otras cuentas?
+
+### H41 · 2021 — Node 12 en el servidor de la oficina
+
+- **Qué se decidió:** según el acta, el servidor tiene Node 12 desde 2021. El `LEEME.txt` dice Node 8.
+- **Implicados:** Julián.
+- **Evidencia:** [acta simulada](entrevista-negocio-simulada.md) P33, IN-5 (**SUPOSICIÓN**); `LEEME.txt:5,7` (H14). Ver A-43 y R33.
+- **Pregunta al negocio:** Julián, confirmar con `node --version` en el servidor.
+
+### Testimonio simulado sobre entradas anteriores
+
+| Entrada | Lo que añade el acta (SUPOSICIÓN) | Pregunta |
+| --- | --- | --- |
+| H15 | Puri cree que el trimestre devuelto fue el 1T de 2019, «no lo asegura» | P17 |
+| H17 | El acta de la inspección de 2020 está en el archivo de la oficina (Dirección) | P23 |
+| H22 | Los albaranes siguen siendo un requisito; Roberto no está localizable (Dirección) | P32 |
+| H24 | Hay que hablar con Manoli porque lleva el contrato de Arsys y el dominio | P31 |
+| H26 | La factura arreglada a mano en la BD fue `FA-2026-000101` (Julián) | P04 |
+| H28 | `config.js` lo copia Julián; no ha mirado el valor del servidor | P30 |
+| H29 | Marga no sabe qué son los «datos de referencia» | P25 |
+| H30 | **Contradice el comentario:** Marga no factura a mano el prorrateo; usa la pantalla de baja como calculadora para informar al cliente (IN-9) | P08 |
+| H32 | La copia se sigue haciendo los viernes, con el programa abierto, en un único pendrive guardado en un cajón (IN-7) | P34 |
+| H33 | **Contradice la vista:** la gestoría no cuadra el resumen de IVA; trabaja con el CSV importado en Contaplus | P01 |
+| H34 | Paco: «lo hablamos con Puri por la factura del Hotel» (`FA-2026-000103`) | P09 |
+| H35 | Causa: Marga relanzó la remesa de abril tras un error. **No cuadra con los datos**: en la copia no hay dos facturas de abril, sino una con la duplicación dentro | P05 |
 
 ## Lo que dice la cronología en conjunto
 

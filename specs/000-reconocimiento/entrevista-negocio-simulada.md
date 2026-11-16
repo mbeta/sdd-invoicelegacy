@@ -182,6 +182,12 @@ Seguirían PENDIENTES: A-04 (en parte), A-14, A-18 (decisión), A-27, A-39, A-40
 
 **Ninguno de estos cambios se ha aplicado al registro.** Solo podrán aplicarse con la entrevista real, anotando el nombre y la fecha del testimonio.
 
+**Propagación (2026-11-16).** Esta acta se ha propagado como SUPOSICIÓN a los documentos del reconocimiento, sin cerrar ninguna clasificación:
+
+- [registro-de-anomalias.md](registro-de-anomalias.md): referencia al acta en 40 entradas, columna de propuesta en el §7, nuevas A-49 y A-50, consultas QD23 y QD24, y registro de cambios en el §9.
+- [registro-riesgos.md](registro-riesgos.md): nuevos R31-R34 y el §1.1.
+- [memoria-historica.md](memoria-historica.md): nuevas H36-H41 y anotaciones sobre H15-H35.
+
 ## 7. Acciones
 
 | # | Acción | Responsable |
@@ -196,3 +202,61 @@ Seguirían PENDIENTES: A-04 (en parte), A-14, A-18 (decisión), A-27, A-39, A-40
 | AC-8 | Decidir la ruta definitiva del acta real (`entrevista-negocio.md`) y del registro (`TODO(RUTA_REGISTRO_ANOMALIAS)`) | Responsable del proyecto |
 
 **Fuera del alcance de esta fase** (constitución, principio I): las rectificaciones de las facturas 101, 105, 107 y 108, el abono de 3,70 € y cualquier corrección del código. Esta acta solo las registra como decisiones de negocio pendientes de confirmar.
+
+## 8. Pendiente para próxima ronda
+
+Agenda de la entrevista **real**. Tiene tres partes, por prioridad:
+
+1. Lo que la simulación no supo responder (8.1).
+2. Las preguntas nuevas que ha abierto, sobre todo donde el acta choca con los datos o consigo misma (8.2).
+3. La confirmación, con nombre y fecha, de todas las respuestas simuladas que decidían algo (8.3).
+
+Sin esto último no se cierra ninguna PENDIENTE del registro.
+
+### 8.1 Sin respuesta concluyente
+
+| # | Para | Pregunta | Anomalía | Cómo se resuelve |
+| --- | --- | --- | --- | --- |
+| P04 | Julián | ¿Hubo alguna pantalla o proceso en el que se tecleaba el importe y se calculaba la cantidad (QD4)? | A-04 | Versiones o copias del código de 2024-2025 |
+| P07 | Paco y Puri | ¿Cuentan los portes, los servicios y las devoluciones de envases para el umbral del descuento? | A-09, A-15 | Reunión conjunta (AC-7) |
+| P14 | Puri | ¿Se facturó aceite al 5 % o al 0 % en 2023-2024? ¿Con qué recargo? ¿Es el 0,62 % el recargo del 5 % (IN-6)? | A-14 | Libros de 2023-2024 (AC-4) y normativa |
+| P17 | Puri | ¿Qué trimestre de 2019 devolvió la gestoría? | A-17 | Archivo de la gestoría |
+| P18 | Puri | ¿Cómo redondea Contaplus 81,585 y −19,425? | A-18 | Prueba en Contaplus (AC-3) |
+| P24 | Puri | ¿Admite el importador campos entre comillas? | A-31 | Importación de un CSV de prueba (AC-3) |
+| P25 | Julián | ¿Qué uso tienen los «datos de referencia» de `db.js:91-92`? ¿Desde qué carpeta arranca el acceso directo de Marga? | A-27 | Julián revisa el acceso directo (AC-6) |
+| P30 | Julián | ¿Qué `VENCIMIENTO_DIAS` hay en el `config.js` del servidor? | A-37 | Abrir el fichero en el servidor (AC-6) |
+| P31 | Manoli | ¿Se usa la contraseña antigua de `config.js` en otras cuentas? | A-40 | Manoli lo comprueba |
+| P32 | Dirección | ¿Está la wifi de clientes separada de la red de GesFact? | A-39 | Proveedor de red |
+
+### 8.2 Preguntas nuevas surgidas de la simulación
+
+| # | Para | Pregunta | Por qué surge | Anomalía |
+| --- | --- | --- | --- | --- |
+| N-01 | Puri y Dirección | El abono de 3,70 € al Hotel «en la siguiente factura» sería una línea negativa en la serie FA. ¿No va contra la regla de que solo los envases van en negativo (CN-5)? ¿Se hace con rectificativa? | P02-bis choca con P15 | A-01, A-15 |
+| N-02 | Puri | Las facturas de diciembre de 2025 con número de 2026: ¿qué números son? ¿Se dejan con una nota o se rectifican? (PR-2 prohíbe renumerar) | P20 abre un incidente ya ocurrido | A-20 |
+| N-03 | Marga | Si en abril relanzaste la remesa, ¿por qué hay una sola factura de abril para Bar Nuevo Siglo con la cuota duplicada dentro, y no dos facturas? | P05 no cuadra con QD17 | A-03 |
+| N-04 | Paco | ¿El primer mes parcial gratis es para todos los clientes nuevos o solo para algunos? ¿Quién lo decide, dónde queda escrito y hay otras bonificaciones? | IN-2: práctica fuera del programa | A-49 |
+| N-05 | Marga y Julián | Si el contrato 4 estaba dado de alta, ¿cómo se evitó que la remesa de febrero lo facturase? ¿Y por qué tampoco hay factura de marzo en la copia? | P11 frente al código y a QD24 | A-49 |
+| N-06 | Marga | ¿Desde cuándo llevas el Excel de cobros? ¿Quién lo recibe? ¿Dónde se guarda y tiene copia? ¿Marcas «cobrada» en GesFact siempre, a veces o nunca? | IN-3: dependencia externa | A-50 |
+| N-07 | Paco y Puri | Con mes comercial y «febrero completo, cuota entera», ¿cómo se calcula un febrero **parcial**: días/30, o febrero cuenta como 30 días? | CN-1 no lo resuelve | A-13 |
+| N-08 | Marga | ¿Qué factura se devolvió por NIF erróneo, cuándo y con qué rectificativa? | P26: no está en la copia | A-32 |
+| N-09 | Julián | Con Node 12 en el servidor, ¿cómo se instalan las dependencias si el lockfile es v3? ¿En qué máquina se pueden ejecutar los tests? | IN-5 | A-43 |
+| N-10 | Marga y Dirección | ¿Se ha restaurado alguna vez la copia del pendrive? ¿Funcionó, si se hizo con el programa abierto? | IN-7 | A-42 |
+| N-11 | Julián | La copia del repositorio no tiene las facturas `FA-2026-000001` a `-000100` ni la mayoría de las remesas de enero a mayo (QD23, QD24). ¿Cómo se hizo esa selección? ¿Dónde está la copia completa? | IN-1 y la arqueología | A-04, A-30 |
+| N-12 | Marga y Paco | Si grabáis a la vez, ¿habéis visto alguna vez dos facturas con el mismo número desde 2021? | P34 | A-23 |
+| N-13 | Julián | ¿Fue el cambio de contraseña de Manoli en 2022 la causa de que el envío dejara de funcionar? | P31 frente a H23 | A-35 |
+
+### 8.3 Respuestas simuladas que hay que confirmar
+
+Cada una cierra o cambia una clasificación **solo** cuando la persona real la confirma. Se anotan su nombre y la fecha, y el cambio se registra en el §9 del registro de anomalías.
+
+| Persona | Preguntas | Anomalías afectadas |
+| --- | --- | --- |
+| Puri | P01, P02, P09 (con Paco), P10 (con Paco), P15, P16, P17 (criterio), P19, P20, P21, P22, P23, P24 (formato), P27 | A-01, A-02, A-10, A-11, A-13, A-15, A-16, A-17, A-20, A-21, A-22, A-28, A-30, A-31, A-33 |
+| Marga | P03, P05, P06, P08, P11, P12, P14 (precios), P15, P20, P21, P25, P26, P27, P28, P29, P30 (plazo), P34 | A-03 a A-08, A-13, A-14, A-15, A-20, A-21, A-23, A-27, A-32, A-33, A-34, A-36, A-37, A-42, A-44, A-49, A-50 |
+| Paco | P06, P07 (base), P09, P10, P13 | A-07, A-09, A-10, A-12, A-13 |
+| Julián | P04 (101 y remesas), P30, P33 | A-04, A-37, A-41, A-43, A-45 |
+| Manoli | P31 (razón del «no tocar», contraseña de 2022) | A-35, A-40 |
+| Dirección | P02-bis, P23, P32 (RGPD, copias, MySQL, albaranes) | A-01, A-30, A-35, A-41, A-42, A-48 |
+
+**Estado de la lista PENDIENTE del registro al cerrar esta propagación: 35 entradas** (las 33 anteriores, más A-49 y A-50). No está vacía, así que el reconocimiento **no** puede pasar todavía a specs formales. Esta sección y el §8 del registro son la agenda de la siguiente conversación con el negocio. Se empieza por P01, P02, P03 y P20 (AC-1) y por N-01, N-03 y N-11, porque contradicen los datos o el resto del acta.
