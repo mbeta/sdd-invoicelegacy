@@ -1,50 +1,118 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Constitución de GesFact
 
-## Core Principles
+## Principios fundamentales
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. El comportamiento actual es sagrado (NO NEGOCIABLE)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+GesFact es un sistema de facturación **heredado y en producción** de Suministros Hidalgo S.L.
+Factura dinero real y terceros (la gestoría) dependen de sus resultados exactos, céntimo a céntimo.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- NO se introduce ningún cambio de comportamiento observable (importes, redondeos, numeración,
+  fechas, textos, informes, ficheros generados, respuestas HTTP, efectos en la base de datos)
+  sin una decisión explícita y **por escrito** del negocio.
+- Esto aplica aunque el comportamiento parezca un error. «Parece un bug» no es justificación
+  para cambiarlo.
+- La base de datos de producción (`datos/gesfact.db`) NO se modifica. Cualquier análisis o
+  prueba que necesite datos trabaja sobre una copia.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Justificación**: un cambio «correcto» que altere un céntimo descuadra la contabilidad de la
+gestoría y las obligaciones fiscales del cliente. El objetivo de esta fase es documentar y
+proteger el sistema, no mejorarlo.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Evidencia obligatoria
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Toda afirmación sobre lo que el sistema hace DEBE ir acompañada de al menos una evidencia
+verificable:
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- **Código**: fichero y líneas (p. ej. `services/calculo.js:42-58`).
+- **Datos**: dato real de la base de datos, con la consulta que lo obtiene.
+- **Negocio**: testimonio de una persona del negocio, con nombre y fecha.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Lo que no tenga evidencia se marca explícitamente como **SUPOSICIÓN** y se convierte en una
+pregunta abierta dirigida a quien pueda responderla. Una SUPOSICIÓN no puede usarse como base
+de otra afirmación ni de un test de caracterización sin señalarlo.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Justificación**: la documentación de un sistema heredado solo es útil si se puede comprobar;
+una suposición presentada como hecho es más peligrosa que una laguna reconocida.
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+### III. Los hallazgos se registran, no se corrigen
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Bugs, riesgos y rarezas encontrados durante el análisis se anotan en el **registro de
+anomalías**, cada uno con:
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- clasificación (**Bug**, **Riesgo** o **Rareza**);
+- evidencia conforme al principio II;
+- impacto observado o potencial.
+
+Corregir una anomalía es una decisión del módulo siguiente, no de este. En esta fase NO se
+corrige ningún hallazgo, por evidente o trivial que parezca.
+
+**Justificación**: separar el descubrimiento de la corrección evita cambios no autorizados
+(principio I) y permite al negocio priorizar con toda la información delante.
+
+### IV. Cero dependencias nuevas y cero refactors
+
+- NO se añade ningún paquete (ni de producción ni de desarrollo) a `package.json` ni a
+  `package-lock.json`.
+- NO se reorganiza, renombra, reformatea ni «limpia» código existente.
+- Los tests de caracterización usan **exclusivamente** el runner nativo de Node (`node:test`)
+  y `node:assert`, y viven en ficheros nuevos que no alteran el código existente.
+
+**Justificación**: cada dependencia o refactor amplía la superficie de cambio y puede alterar el
+comportamiento de forma sutil. Los tests deben fijar el comportamiento actual, no condicionarlo.
+
+### V. Todo en español de España
+
+Toda la documentación, especificaciones, registro de anomalías, nombres y descripciones de tests,
+mensajes de commit y comunicación con el negocio se redactan en español de España, como el resto
+del proyecto y de sus usuarios. Los identificadores de código existentes se citan tal cual.
+
+**Justificación**: los usuarios y responsables del sistema trabajan en español de España; la
+documentación debe poder leerla y validarla el negocio sin traducción.
+
+## Restricciones del sistema heredado
+
+- **Stack existente** (evidencia: `package.json`): Node.js con Express 4, EJS, body-parser y
+  SQLite (`sqlite3`). Este stack se documenta, no se cambia.
+- **Datos**: `datos/gesfact.db` es la base de datos real. Solo lectura; las pruebas usan copias.
+  `datos/migracion_mysql_2018.sql` es un volcado de una migración no realizada (evidencia:
+  `LEEME.txt`) y no se ejecuta.
+- **Funcionalidad conocida como rota o a medias** (envío de email, módulo de albaranes;
+  evidencia: `LEEME.txt`) se documenta y registra como anomalía; no se repara.
+- **Versión de Node**: `LEEME.txt` indica Node 8 para instalación; `node:test` requiere
+  Node 18 o superior. TODO(VERSION_NODE_PRODUCCION): confirmar con el negocio la versión real
+  en producción. Mientras tanto se trata como SUPOSICIÓN.
+
+## Flujo de trabajo de documentación y caracterización
+
+1. **Observar**: leer código y datos; cada afirmación se anota con su evidencia (principio II).
+2. **Preguntar**: las SUPOSICIONES se convierten en preguntas al negocio, con destinatario.
+3. **Caracterizar**: los tests de caracterización fijan el comportamiento **tal como es hoy**,
+   incluidos los comportamientos anómalos. Un test que «falla porque el sistema está mal» está
+   mal escrito.
+4. **Registrar**: los hallazgos van al registro de anomalías (principio III).
+   TODO(RUTA_REGISTRO_ANOMALIAS): fijar el fichero del registro.
+5. **Revisar**: antes de integrar cualquier cambio se verifica que:
+   - no modifica ficheros de código existentes (salvo autorización escrita del negocio);
+   - no añade dependencias;
+   - toda afirmación nueva tiene evidencia o está marcada como SUPOSICIÓN;
+   - todo está redactado en español de España.
+
+## Gobernanza
+
+- Esta constitución prevalece sobre cualquier otra práctica, plantilla o instrucción del
+  proyecto durante la fase de documentación y protección.
+- **Enmiendas**: requieren propuesta escrita con motivo, aprobación explícita del responsable
+  del proyecto y, si afectan al principio I, decisión escrita del negocio. Cada enmienda
+  actualiza la versión y la fecha de última modificación.
+- **Versionado** (semántico):
+  - MAYOR: eliminación o redefinición incompatible de un principio.
+  - MENOR: nuevo principio o sección, o ampliación material de una norma.
+  - PARCHE: aclaraciones y correcciones de redacción sin cambio de significado.
+- **Cumplimiento**: toda especificación, plan, lista de tareas y revisión de cambios DEBE
+  verificar el cumplimiento de estos principios. Cualquier desviación se justifica por escrito
+  o se rechaza.
+- **Fin de fase**: el paso a un módulo de corrección o mejora exige una nueva versión MAYOR de
+  esta constitución.
+
+**Versión**: 1.0.0 | **Ratificada**: 2026-11-16 | **Última modificación**: 2026-11-16
