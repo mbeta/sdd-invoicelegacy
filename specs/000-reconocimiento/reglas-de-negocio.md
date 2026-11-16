@@ -2,7 +2,7 @@
 
 **Extracción de las reglas de negocio que implementa hoy el núcleo de GesFact.** Fecha: 2026-11-16. Fase: documentar y proteger (ver `.specify/memory/constitution.md`).
 
-Este documento describe **lo que el sistema cobra, permite y calcula hoy**, no lo que debería hacer. Ninguna regla se corrige aquí. Cuando la regla parece un error, se dice en la clasificación y se remite al registro de riesgos (`registro-riesgos.md`, R1-R28) o a la lista de preguntas abiertas (§13).
+Este documento describe **lo que el sistema cobra, permite y calcula hoy**, no lo que debería hacer. Ninguna regla se corrige aquí. Cuando la regla parece un error, se dice en la clasificación y se remite al registro de riesgos (`registro-riesgos.md`, R1-R30) o a la lista de preguntas abiertas (§13).
 
 ## 0. Alcance y método
 
@@ -698,7 +698,7 @@ Cada discrepancia es un hallazgo y se traslada al registro de anomalías. Ningun
 | D1 | «a partir de 1.000 eur» (`services/calculo.js:37`) | `> 1000`: los 1.000 € justos no llevan descuento | RN-09 | R25 |
 | D2 | Prorrateo comercial de 30 días, «así lo espera la gestoría» (`services/calculo.js:91-93`) | La remesa prorratea por días reales | RN-34, RN-39 | R11 |
 | D3 | «el mes son siempre 30 días» (`services/calculo.js:91`) | Febrero completo cobra 28/30 | RN-39 | R11 |
-| D4 | `desde`/`hasta` «dentro del MISMO mes» (`services/calculo.js:94`) | No se comprueba; con meses distintos da 0 | RN-39 | nuevo |
+| D4 | `desde`/`hasta` «dentro del MISMO mes» (`services/calculo.js:94`) | No se comprueba; con meses distintos da 0 | RN-39 | R29 |
 | D5 | Numeración «sin huecos» (`lib/numeracion.js:3-4`) | Reserva el número antes de grabar | RN-24 | R4 |
 | D6 | «no ha vuelto a pasar (creo)» (`lib/numeracion.js:9-10`) | La carrera sigue abierta; no hay `UNIQUE` | RN-25 | R3 |
 | D7 | Las rectificativas «cuadran solas» (`routes/informes.js:21-22`) | El resumen y el CSV no cuadran entre sí | RN-45 | R2 |
@@ -707,7 +707,7 @@ Cada discrepancia es un hallazgo y se traslada al registro de anomalías. Ningun
 | D10 | Mes facturado «normalmente el que acaba de terminar», lanzado «el dia 1» (`scripts/remesa_mensual.js:5-7`) | El número toma el año del reloj | RN-23 | R1 |
 | D11 | Facturas reales de remesa con varias líneas, «(enero)» y «Remesa enero» | El script crea una sola línea y añade el año | RN-33, RN-37 | S4 de `mapa-sistema.md` |
 | D12 | `FA-2026-000105`: «Descuento volumen 2% aplicado» con precios sin rebajar | El código rebaja el precio y antepone un espacio | RN-11, RN-13 | A10 de `flujo-factura.md` |
-| D13 | `RE-2026-000001`: «Rectifica FA-2026-000106 (cuota abril duplicada)» | El código escribe «Rectifica <n>. <motivo>» | RN-29 | nuevo |
+| D13 | `RE-2026-000001`: «Rectifica FA-2026-000106 (cuota abril duplicada)» | El código escribe «Rectifica <n>. <motivo>» | RN-29 | R30 |
 | D14 | Líneas reales con base distinta de cantidad × precio (0,32 × 6 → 1,90; 0,97 × 11,95 → 11,61; 0,66 × 21,60 → 14,15) | El código siempre graba cantidad × precio redondeado | RN-01 | A10 de `flujo-factura.md` |
 
 ---
