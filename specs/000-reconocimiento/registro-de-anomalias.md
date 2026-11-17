@@ -1,6 +1,6 @@
 # Registro de anomalías — GesFact 2.4
 
-**Fase**: 000-reconocimiento · **Fecha**: 2026-11-16 · **Base**: commit `7713101` · **Actualizado**: 2026-11-16, propagación del [acta simulada](entrevista-negocio-simulada.md) (commit `23bb7a5`) y red de caracterización (A-51 a A-54); ver §9
+**Fase**: 000-reconocimiento · **Fecha**: 2026-11-16 · **Base**: commit `7713101` · **Actualizado**: 2026-11-16, propagación del [acta simulada](entrevista-negocio-simulada.md) (commit `23bb7a5`) y red de caracterización (A-51 a A-54); ver §9. **Lista PENDIENTE cerrada** el 2026-11-16 con la [ratificación simulada](ratificacion-negocio-simulada.md)
 
 Este documento consolida en un único registro todos los hallazgos del reconocimiento y de la ingeniería inversa (constitución, principio III). **No corrige nada.** Un tratamiento «corregir en fase de modernización» es una propuesta para el módulo siguiente, que exige además una decisión escrita del negocio (principio I).
 
@@ -110,15 +110,15 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** QD19. En el 1T de 2026 la diferencia de IVA es de 133,31 €, y en lo que va de 2026, de 135,80 € (C02 §3.1). En la base del 1T hay −47,75 €.
   - **NEGOCIO:** ninguno. Según un texto de la vista, la gestoría revisa el resumen antes del 303 (`views/informe_iva.ejs:16`, H33).
     - [acta simulada](entrevista-negocio-simulada.md), P01, en el papel de Puri, 2026-11-16: «El 303 del 1T de 2026 se presentó con **736,97 €** (CSV). El CSV es lo que importamos en Contaplus; el resumen lo miramos por encima». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG HISTÓRICO CON DEPENDIENTES**, con el CSV (cabeceras) como fuente de la gestoría.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG HISTÓRICO CON DEPENDIENTES.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-01](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG HISTÓRICO CON DEPENDIENTES.
   - El mecanismo de dos fuentes es inocuo con datos coherentes. Si hay dependientes depende de qué cifra se usó para presentar el 303.
   - **Pregunta que lo desbloquea (Puri):** «¿Con qué cifra se presentó el modelo 303 del 1T de 2026: 603,66 € (resumen de IVA) o 736,97 € (CSV)? ¿Cuál de las dos importáis en Contaplus?»
 - **Dependientes:** la gestoría (303 y Contaplus), SUPOSICIÓN hasta la respuesta. También los trimestres ya presentados.
-- **Tratamiento (provisional):** **especificar tal cual**: cada salida conserva su fuente.
+- **Tratamiento (acordado en RS-01; ver la tabla del §7):** **especificar tal cual**: cada salida conserva su fuente.
   - La corrección, que consiste en unificar la fuente, se aplaza a la modernización y solo con la decisión de Puri.
   - **No es retroactiva:** regularizar trimestres ya presentados es decisión de la gestoría, no del programa.
-- **Decisión pendiente (Puri):** fuente única de verdad para los importes de un periodo.
+- **Decisión tomada en RS-01 (Puri), antes pendiente:** fuente única de verdad para los importes de un periodo.
 - **Fuentes:** R2, C02, RN-45, D7, P10, C02-1, H11, H33.
 
 ### A-03 · La remesa mensual se puede lanzar dos veces y no se puede reanudar; ya hay una cuota duplicada y rectificada
@@ -170,7 +170,7 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
     - La BD coincide con la siembra (`db.js:93-181`).
   - **NEGOCIO:** ninguno. Los datos semilla son «los que había en el sistema cuando se hizo la copia» (`db.js:91-92`).
     - [acta simulada](entrevista-negocio-simulada.md), P03 y P04, en el papel de Marga y de Julián, 2026-11-16: Marga: «No es la BD del servidor; Julián se llevó una copia en mayo y en el servidor hay facturas hasta octubre». Julián: «La 101 la arreglé a mano en la BD; las remesas con varias líneas son de una versión anterior del script; lo del importe tecleado no lo recuerdo». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Lo respaldan QD23 y QD24: la copia empieza en `FA-2026-000101` y le faltan la mayoría de las remesas de enero a mayo, así que es una **selección**, no una copia completa. Si se confirma: mezcla de BUG HISTÓRICO CON DEPENDIENTES (101) y ACCIDENTAL (versión anterior). QD4 sigue sin respuesta.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG HISTÓRICO CON DEPENDIENTES (FA-2026-000101, retoque manual) / ACCIDENTAL (versiones anteriores del alta y de la remesa).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-02](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG HISTÓRICO CON DEPENDIENTES si fueron retoques a mano, o ACCIDENTAL si salieron de una versión anterior.
   - **Preguntas que lo desbloquean:**
     - **Julián:** «¿Las facturas 101 a 108 y la RE-001 se grabaron con esta versión de GesFact, con otra anterior, o se retocaron directamente en la BD? ¿Hubo alguna pantalla en la que se tecleaba el importe y se calculaba la cantidad?»
@@ -181,7 +181,7 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 - **Tratamiento:** **documentar sin especificar**. Las specs siguen al código, no a estos datos.
   - La migración debe conservar los valores grabados sin recalcularlos.
   - **No es retroactivo.**
-- **Decisión pendiente:**
+- **Decisión tomada en RS-02, antes pendiente:**
   - **Julián:** origen de los datos.
   - **Marga:** confirmar cuál es la BD de producción.
 - **Fuentes:** D9, D11, D12, D13, D14, R30, RN-13 (hallazgo), RN-29 (hallazgo), RN-33 (hallazgo), RN-37, P7, flujo A10, flujo S3, mapa S2, mapa S4. Nuevos en este registro: el IVA 1,15 de la línea 12 y el patrón de las cantidades derivadas del importe.
@@ -221,12 +221,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. No hay ninguna factura manual de baja en la BD. La única baja (contrato 3, septiembre de 2025) es anterior a las facturas que contiene la BD (QD17, QD22). En la copia, el experimento E3/E4 dio 43,55 € (remesa) más 45,00 € (pantalla) por 15 días.
   - **NEGOCIO:** ninguno. El comentario de `routes/contratos.js:28-30` dice que la factura del prorrateo se emite a mano (memoria H30).
     - [acta simulada](entrevista-negocio-simulada.md), P08, en el papel de Marga, 2026-11-16: «La pantalla de baja la uso para decirle al cliente cuánto le queda. La factura la hace la remesa. Con el lavavasos del Hotel no hice factura manual». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG A SECAS latente** (la nota de la vista induce al doble cobro y nadie la sigue).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS (latente).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-03](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG HISTÓRICO CON DEPENDIENTES si se ha emitido alguna vez.
   - **Pregunta que lo desbloquea (Marga):** «Cuando un contrato se da de baja a mitad de mes, ¿emitís la factura manual del prorrateo **además** de la que genera la remesa de ese mes? ¿Ha pasado con el lavavasos del Hotel Vega Baja (baja el 15/09/2025)?»
 - **Dependientes:** Marga (paso manual) y los clientes con bajas a mitad de mes.
-- **Tratamiento (provisional):** **especificar tal cual** las dos piezas por separado. La corrección depende de la respuesta y de A-13. **No es retroactiva.**
-- **Decisión pendiente (Marga):** procedimiento de facturación del mes de baja.
+- **Tratamiento (acordado en RS-03; ver la tabla del §7):** **especificar tal cual** las dos piezas por separado. La corrección depende de la respuesta y de A-13. **No es retroactiva.**
+- **Decisión tomada en RS-03 (Marga), antes pendiente:** procedimiento de facturación del mes de baja.
 - **Impacto:** hasta una cuota extra por baja (88,55 € por 15 días de una cuota de 90 €).
 - **Fuentes:** R13, RN-40, C01 §3.4, P5, C01-3, H30.
 
@@ -240,12 +240,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Los 6 clientes están activos (QD21). En la copia, E3/E4 generó `FA-2026-000109`, `-000113` y `-000117` a nombre de un cliente dado de baja.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P06, en el papel de Marga y de Paco, 2026-11-16: Marga: «Doy de baja los contratos a mano, uno a uno». Paco: «A un cliente de baja no se le factura nunca». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG A SECAS** (CN-3).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-04](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG A SECAS.
   - **Pregunta que lo desbloquea (Marga y Paco):** «Cuando un cliente se da de baja, ¿se dan de baja también sus contratos? ¿Hay casos en que se deba seguir facturando a un cliente de baja, por ejemplo un contrato que sigue vivo hasta su fin?»
 - **Dependientes:** nadie identificado.
-- **Tratamiento (provisional):** especificar tal cual. Si se confirma el bug, corregir en la modernización sin tocar las facturas ya emitidas (**no retroactivo**).
-- **Decisión pendiente (Marga y Paco):** qué significa «cliente de baja» para la facturación.
+- **Tratamiento (acordado en RS-04; ver la tabla del §7):** especificar tal cual. Si se confirma el bug, corregir en la modernización sin tocar las facturas ya emitidas (**no retroactivo**).
+- **Decisión tomada en RS-04 (Marga y Paco), antes pendiente:** qué significa «cliente de baja» para la facturación.
 - **Impacto:** una cuota entera al mes por contrato (108,90 € en el caso del contrato 4).
 - **Fuentes:** C08, C08-1, C08-2, RN-14, RN-32 (inclusión de inactivos), R9 (cliente de baja), mapa A6.
 
@@ -257,12 +257,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Ninguna baja está en el futuro (QD22). En la copia, E3/E4 facturó el mes entero (`FA-2026-000111`) a un contrato que la pantalla mostraba de baja.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P12, en el papel de Marga, 2026-11-16: «La baja la meto en cuanto llega el preaviso; está vigente hasta la fecha de baja». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **ACCIDENTAL**; la definición de negocio es la de la remesa.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-05](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Marga):** «¿Registráis bajas de contratos con antelación, por ejemplo al recibir el preaviso? Para administración, un contrato con baja el 15 del mes que viene, ¿está "de baja" o "vigente"?»
 - **Dependientes:** Marga, que podría creer que el contrato ya no se factura.
-- **Tratamiento (provisional):** especificar tal cual las dos definiciones de vigencia. **No es retroactivo.**
-- **Decisión pendiente (Marga):** definición única de contrato vigente.
+- **Tratamiento (acordado en RS-05; ver la tabla del §7):** especificar tal cual las dos definiciones de vigencia. **No es retroactivo.**
+- **Decisión tomada en RS-05 (Marga), antes pendiente:** definición única de contrato vigente.
 - **Impacto:** cuotas que se facturan sin que administración lo espere, combinables con A-06.
 - **Fuentes:** C10, C10-1, C10-2.
 
@@ -274,12 +274,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Solo dos facturas superan los 1.000 € brutos, y las dos son NO FIABLES (QD13, A-04).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P07, en el papel de Paco, 2026-11-16: «Sobre toda la base, como siempre. Lo de las 183 no lo sabía. Si cuentan los portes, lo tengo que hablar con Puri». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: diseño INTENCIONAL y no monotonía ACCIDENTAL. Portes, servicios y envases: **sin respuesta** (próxima ronda).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (descuento sobre toda la base, portes incluidos) / ACCIDENTAL aceptada (no monotonía).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-06](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** el diseño es INTENCIONAL; esta consecuencia, ACCIDENTAL.
   - **Pregunta que lo desbloquea (Paco y Puri):** «¿Deben contar los portes, los servicios y las líneas negativas para llegar al umbral? ¿Sabéis y aceptáis que 183 garrafas de aceite salgan 128,08 € más baratas que 182?»
 - **Dependientes:** nadie identificado.
-- **Tratamiento (provisional):** **especificar tal cual**. Cualquier cambio altera importes y necesita decisión escrita. **No es retroactivo.**
-- **Decisión pendiente (Paco):** si el descuento debe ser escalonado o seguir aplicándose a toda la base.
+- **Tratamiento (acordado en RS-06; ver la tabla del §7):** **especificar tal cual**. Cualquier cambio altera importes y necesita decisión escrita. **No es retroactivo.**
+- **Decisión tomada en RS-06 (Paco), antes pendiente:** si el descuento debe ser escalonado o seguir aplicándose a toda la base.
 - **Impacto:** 128,08 € en el ejemplo de 182 frente a 183 unidades. En general, hasta un 3 % de la base al cruzar los 5.000 €.
 - **Fuentes:** RN-10, RN-12 (falta de monotonía), P2.
 
@@ -294,14 +294,14 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO FIABLE. `FA-2026-000103` tiene base 1.000,00 €, va sin descuento y está cobrada (QD1). Sin embargo, sus líneas suman 1.000,02 € con el código actual, que le aplicaría el 2 % (QD13, D9, A-04).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P09, en el papel de Paco, 2026-11-16: «1.000 justos, sin descuento; 5.000 justos, el 2 %. "A partir de" quiere decir "por encima de"». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **INTENCIONAL** (CÓDIGO + NEGOCIO; CN-8).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-07](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL (regla protegida).
   - Hoy hay un solo testigo a favor: los datos que lo respaldarían no son fiables y el propio código tiene dos comentarios contradictorios.
   - **Pregunta que lo desbloquea (Paco y Puri):** «Una factura de base exactamente 1.000,00 €, ¿lleva el 2 %? ¿Y una de 5.000,00 €, el 2 % o el 5 %? ¿Cuándo y con quién se acordó el caso de la `FA-2026-000103`?»
 - **Dependientes:** el Hotel Vega Baja (`FA-2026-000103`, cobrada) y la gestoría.
 - **Tratamiento:** **especificar tal cual**, incluida la frontera exacta.
   - Si el negocio decide lo contrario, se corrige en la modernización **sin retroactividad**: `FA-2026-000103` no se toca.
-- **Decisión pendiente (Paco):** confirmar el sentido de «a partir de».
+- **Decisión tomada en RS-07 (Paco), antes pendiente:** confirmar el sentido de «a partir de».
 - **Impacto:** en la frontera de 1.000 €, 24,20 € por factura (1.210,00 € sin descuento frente a 1.185,80 € con el 2 %). En la de 5.000 €, 150,00 € de base (2 % frente a 5 %).
 - **Fuentes:** RN-09, D1, D9, H8, H34, R25 (la parte del comentario).
 
@@ -315,12 +315,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** EN CONTRA. `FA-2026-000105` anota «Descuento volumen 2% aplicado» con los precios **de catálogo sin rebajar** (QD14). Su base, 2.287,75 €, no es la de ningún cálculo del código (QD13, D12).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P16, en el papel de Puri, 2026-11-16: «Desglosado por línea, sí. La 105 está mal, se hizo a mano. El precio de tarifa no lo necesitamos». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: desglose INTENCIONAL y desviación por redondeo ACCIDENTAL. `FA-2026-000105` entra en las rectificaciones de A-01.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (desglose por línea) / ACCIDENTAL aceptada (desviación por redondeo).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-08](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL en el desglose línea a línea; ACCIDENTAL en la desviación por redondeo.
   - **Pregunta que lo desbloquea (Puri):** «¿Pedisteis en 2018 que el descuento se aplicara rebajando el precio de cada línea? La `FA-2026-000105` lleva el descuento anotado pero con los precios sin rebajar: ¿cuál de las dos formas os vale? ¿Necesitáis ver el precio de tarifa?»
 - **Dependientes:** la gestoría (Contaplus) y el cliente de `FA-2026-000105`.
-- **Tratamiento (provisional):** **especificar tal cual**. Guardar el precio de tarifa sería una ampliación de la modernización y **no puede ser retroactiva**, porque el dato no existe.
-- **Decisión pendiente (Puri):** forma de presentar el descuento.
+- **Tratamiento (acordado en RS-08; ver la tabla del §7):** **especificar tal cual**. Guardar el precio de tarifa sería una ampliación de la modernización y **no puede ser retroactiva**, porque el dato no existe.
+- **Decisión tomada en RS-08 (Puri), antes pendiente:** forma de presentar el descuento.
 - **Impacto:** céntimos por línea; hasta unos euros en líneas de muchas unidades (990,00 € frente a 989,80 €).
 - **Fuentes:** RN-11, RN-12 (desviación), D12, flujo A11, H9.
 
@@ -332,12 +332,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. La cuota máxima es de 145 € (QD22).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P13, en el papel de Paco, 2026-11-16: «Las cuotas no llevan descuento nunca». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: la hipótesis cambia de ACCIDENTAL a **BUG A SECAS latente** (CN-2).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS (latente).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-09](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Paco):** «¿Debe una cuota de contrato de más de 1.000 € llevar descuento por volumen? Si lo lleva, ¿debe constar en la factura?»
 - **Dependientes:** nadie identificado.
-- **Tratamiento (provisional):** especificar tal cual. **No es retroactivo**, porque no hay casos.
-- **Decisión pendiente (Paco):** política de descuento para las cuotas.
+- **Tratamiento (acordado en RS-09; ver la tabla del §7):** especificar tal cual. **No es retroactivo**, porque no hay casos.
+- **Decisión tomada en RS-09 (Paco), antes pendiente:** política de descuento para las cuotas.
 - **Impacto:** latente; del 2 % al 5 % de cuotas grandes.
 - **Fuentes:** RN-13 (remesa), R25 (remesa), flujo A5, P11.
 
@@ -355,16 +355,16 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
     - En el barrido de la copia (E2) divergen 238 de los 365 días posibles de baja.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P10 y P11, en el papel de Paco, Puri y Marga, 2026-11-16: Paco y Puri: «/30, mes comercial; febrero completo, cuota entera». Marga: «A Bar Nuevo Siglo no se le cobró febrero: Paco se lo dejó gratis». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: 30 días INTENCIONAL, días reales ACCIDENTAL, y `calcularProrrateo` incumple CN-1 en febrero (28/30). La práctica del mes gratis va a **A-49**. La ausencia de factura de febrero **no prueba nada**: tampoco hay remesas de marzo para el contrato 4 ni de febrero a abril para el contrato 1 (QD24).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (mes comercial de la baja) / ACCIDENTAL (días reales de la remesa) / BUG A SECAS latente (febrero completo en la baja, frente a CN-1).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-10](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** el mes comercial es INTENCIONAL y los días reales de la remesa son ACCIDENTALES (copia del becario).
   - **Preguntas que lo desbloquean:**
     - **Paco y Puri:** «Cuando un contrato empieza o termina a mitad de mes, ¿qué se ha pactado con el cliente y qué espera la gestoría: cuota/30 por día o cuota/días del mes? ¿Un febrero completo debe cobrar la cuota entera?»
     - **Marga:** «¿Cómo se facturó el alta de Bar Nuevo Siglo del 15/02/2026?»
 - **Dependientes:** los clientes con altas o bajas a mitad de mes y la gestoría.
-- **Tratamiento (provisional):** **especificar tal cual las dos fórmulas**, cada una en su camino.
+- **Tratamiento (acordado en RS-10; ver la tabla del §7):** **especificar tal cual las dos fórmulas**, cada una en su camino.
   - Si se unifican en la modernización: tests de caracterización de los 365 días (E2) antes de tocar nada.
   - **No es retroactivo.**
-- **Decisión pendiente (Paco y Puri):** convenio único de prorrateo.
+- **Decisión tomada en RS-10 (Paco y Puri), antes pendiente:** convenio único de prorrateo.
 - **Impacto:** hasta 2/30 de la cuota (6,67 %): 6,00 € con 90 € y 9,67 € con 145 €. 3,00 € en el caso del contrato 4.
 - **Fuentes:** C01, C01-1, C01-2, C01-4, R11, RN-34, RN-39 (y su frontera de febrero), D2, D3, H3, P4, mapa A4.
 
@@ -379,7 +379,7 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Solo se usan 21 (18 líneas), 10 (7) y 4 (3) (QD16), y todos los precios coinciden con el catálogo (QD14). En la copia, E3 grabó un 5 % con recargo 0 y un 7 % con recargo del 1 %.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P14, en el papel de Puri y Marga, 2026-11-16: Marga: «Precios especiales, sí, a algunos hoteles». Puri: «Tendría que mirar los libros de 2023-2024; el recargo del 5 % debería ser el 0,62 %». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Precio libre: INTENCIONAL si se confirma. Tipos temporales: **sin respuesta**. El 0,62 % no está en `recargoPara` (`services/calculo.js:12-15`), que daría recargo 0 a una línea al 5 %; hay que verificarlo en la normativa (IN-6).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (precio libre) / BUG A SECAS latente (tipos fuera de tabla con recargo 0).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-11](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:**
     - Precio libre: INTENCIONAL.
     - Tipo libre sin control: BUG A SECAS.
@@ -388,10 +388,10 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
     - **Puri y Marga:** «¿Se ha facturado alguna vez a un tipo distinto de 21, 10 o 4 %, por ejemplo el aceite a los tipos temporales de 2023-2024? ¿Cómo, y con qué recargo?»
     - **Marga:** «¿Se pactan precios distintos de los del catálogo?»
 - **Dependientes:** nadie identificado.
-- **Tratamiento (provisional):** **especificar tal cual**.
+- **Tratamiento (acordado en RS-11; ver la tabla del §7):** **especificar tal cual**.
   - Una validación de tipos en la modernización debe admitir los tipos antiguos (A-16).
   - **No es retroactiva.**
-- **Decisión pendiente (Puri):** lista de tipos válidos y su recargo.
+- **Decisión tomada en RS-11 (Puri), antes pendiente:** lista de tipos válidos y su recargo.
 - **Impacto:** recargo mal liquidado en una factura que no se puede borrar. Por ejemplo, en una línea de 100 € al 5 % de un cliente en recargo se liquidan 0 €, y no consta qué correspondería (P3).
 - **Fuentes:** RN-06 (otros tipos → 0), RN-08, C07 (tipos admitidos), C07-1, R9 (tipo libre), P3, H21.
 
@@ -403,12 +403,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Ninguna línea de la serie FA tiene cantidad o precio menor o igual que cero (QD18).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P15, en el papel de Marga y Puri, 2026-11-16: Marga: «Devolución de garrafas y envases en la factura siguiente». Puri: «Vale, siempre que no sea anular otra factura». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **INTENCIONAL** solo para envases (CN-5). Su efecto en la base del descuento sigue abierto (P07).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (devolución de envases, CN-5).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-12](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Marga):** «¿Ponéis alguna vez líneas negativas en una factura normal, por ejemplo devolución de envases o un abono parcial, en lugar de hacer una rectificativa?»
 - **Dependientes:** nadie identificado.
-- **Tratamiento (provisional):** especificar tal cual. **No es retroactivo.**
-- **Decisión pendiente (Marga y Puri):** si los abonos parciales caben en la serie FA.
+- **Tratamiento (acordado en RS-12; ver la tabla del §7):** especificar tal cual. **No es retroactivo.**
+- **Decisión tomada en RS-12 (Marga y Puri), antes pendiente:** si los abonos parciales caben en la serie FA.
 - **Impacto:** una línea de −600 € anula el descuento de una compra de 1.500 € (RN-10).
 - **Fuentes:** RN-15 (validación), RN-10 (líneas negativas), R9 (signo).
 
@@ -420,12 +420,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. No hay líneas con tipos antiguos (QD16).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P19, en el papel de Puri, 2026-11-16: «Nunca se ha reabierto; están prescritos; que se queden». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **INTENCIONAL** («no tocar»).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-13](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL.
   - **Pregunta que lo desbloquea (Puri):** «¿Se ha tenido que reabrir alguna vez un ejercicio con tipos antiguos? ¿Sigue siendo posible que haya que hacerlo?»
 - **Dependientes:** posibles reaperturas de ejercicios (SUPOSICIÓN).
 - **Tratamiento:** **especificar tal cual**. «No tocar» hasta la respuesta. **No es retroactivo.**
-- **Decisión pendiente (Puri):** si se mantienen.
+- **Decisión tomada en RS-13 (Puri), antes pendiente:** si se mantienen.
 - **Impacto:** liquidación de ejercicios antiguos.
 - **Fuentes:** RN-06 (tipos antiguos), H2, tabla de constantes de `reglas-de-negocio.md`.
 
@@ -439,12 +439,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
     - Sin embargo, ninguna factura real distingue los dos métodos con aritmética decimal (QD6). El único caso (`FA-2026-000101`, 21 %: 20,90 por líneas frente a 20,89 sobre la base) se debe solo al efecto binario de A-18.
   - **NEGOCIO:** ninguno. El trimestre devuelto por Puri es testimonio indirecto del comentario.
     - [acta simulada](entrevista-negocio-simulada.md), P17, en el papel de Puri, 2026-11-16: «Mismo Contaplus y línea a línea; no se toca. El trimestre devuelto creo que fue el 1T de 2019». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **INTENCIONAL** (PR-4). El trimestre de 2019 queda **sin respuesta** (H15 lo sitúa en mayo de 2019, compatible con el 1T).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-14](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL (regla protegida).
   - **Pregunta que lo desbloquea (Puri):** «¿La gestoría sigue usando el mismo Contaplus y sigue cuadrando las facturas línea a línea? ¿Qué trimestre devolvisteis en 2019?»
 - **Dependientes:** la gestoría y todas las facturas emitidas.
 - **Tratamiento:** **especificar tal cual**, céntimo a céntimo. Es la regla más protegida del sistema. **No se corrige.**
-- **Decisión pendiente (Puri):** solo confirmación.
+- **Decisión tomada en RS-14 (Puri), antes pendiente:** solo confirmación.
 - **Impacto:** un céntimo por factura (16,68 € frente a 16,67 €), en todas las facturas.
 - **Fuentes:** RN-01, RN-02, RN-03, RN-04 (regla), H1, H15, H16.
 
@@ -492,15 +492,15 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO FIABLE (A-04). No hay factura de febrero de 2026 para el contrato 4 (QD17), pero la copia tampoco tiene la de marzo de ese contrato ni las de febrero a abril del contrato 1 (QD24). La ausencia no distingue un mes regalado de una factura que no se copió.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P11 e IN-2, en el papel de Marga, 2026-11-16: «No se le cobró febrero: Paco se lo dejó gratis por ser cliente nuevo». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (práctica comercial fuera del programa).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-34](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** proceso manual del que depende la facturación (práctica de negocio fuera del programa). Si existe, cualquier spec de la remesa que la ignore facturará lo que comercial ha regalado.
   - **Preguntas que lo desbloquean:**
     - **Paco:** «¿Regaláis el primer mes parcial a todos los clientes nuevos o solo a algunos? ¿Quién lo decide y dónde queda escrito? ¿Hay otras bonificaciones (meses gratis, cuotas rebajadas)?»
     - **Marga y Julián:** «Si la remesa de febrero de 2026 se lanzó en marzo con el contrato 4 ya dado de alta, ¿cómo se evitó que lo facturase: se dio de alta el contrato después, se borró la factura, se rectificó?»
     - **Puri:** «¿Sabe la gestoría que hay meses regalados? ¿Necesita que consten en algún documento?»
 - **Dependientes:** Paco y los clientes bonificados. SUPOSICIÓN hasta la respuesta.
-- **Tratamiento (provisional):** **documentar sin especificar**. La spec de la remesa describe lo que hace el código. Si la práctica se confirma, decidir en la modernización si se informatiza. **No es retroactivo.**
-- **Decisión pendiente (Paco):** alcance y registro de las bonificaciones.
+- **Tratamiento (acordado en RS-34; ver la tabla del §7):** **documentar sin especificar**. La spec de la remesa describe lo que hace el código. Si la práctica se confirma, decidir en la modernización si se informatiza. **No es retroactivo.**
+- **Decisión tomada en RS-34 (Paco), antes pendiente:** alcance y registro de las bonificaciones.
 - **Impacto:** una cuota prorrateada por cliente nuevo: 45,00 € de base (54,45 € con IVA) en el caso de Bar Nuevo Siglo, si se factura lo que se había regalado.
 - **Fuentes:** acta simulada P11 e IN-2; C01-2; QD17; QD24; R34.
 
@@ -516,16 +516,16 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Las 9 facturas son de 2026 y llevan número de 2026 (QD1), y la serie empieza en la 101. En la copia, E6 lo reprodujo: el CSV de 2027 sale vacío con el contador `FA/2027` en 4.
   - **NEGOCIO:** ninguno. El comentario de la remesa describe la práctica (memoria H20).
     - [acta simulada](entrevista-negocio-simulada.md), P20, en el papel de Marga y Puri, 2026-11-16: Marga: «Se lanza el primer día laborable de enero; las de diciembre de 2025 salieron con número de 2026». Puri: «No se acepta: el número debe ser del año de la fecha». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG HISTÓRICO CON DEPENDIENTES** (CN-6, PR-2). Los DATOS no pueden confirmarlo: la copia no contiene `FA-2026-000001` a `-000100` (QD23).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG HISTÓRICO CON DEPENDIENTES.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-15](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG HISTÓRICO CON DEPENDIENTES, si ya ha ocurrido en los eneros de 2022 a 2026.
   - **Preguntas que lo desbloquean:**
     - **Marga:** «¿La remesa de diciembre se lanza el 1 de enero? ¿Qué números llevaron las facturas de la remesa de diciembre de 2025?»
     - **Puri:** «Una factura `FA-2027-…` con fecha 31/12/2026, ¿en qué ejercicio la declaráis? ¿Lo aceptáis?»
 - **Dependientes:** las facturas de diciembre de años anteriores (SUPOSICIÓN), la gestoría y una posible inspección.
-- **Tratamiento (provisional):** especificar tal cual.
+- **Tratamiento (acordado en RS-15; ver la tabla del §7):** especificar tal cual.
   - Corregirlo cambiaría la numeración (principio I). Necesita una decisión de Puri.
   - **No puede ser retroactivo:** los números emitidos no cambian.
-- **Decisión pendiente (Puri):** regla del año de la serie.
+- **Decisión tomada en RS-15 (Puri), antes pendiente:** regla del año de la serie.
 - **Impacto:** fiscal y legal: ejercicio cruzado cada enero.
 - **Fuentes:** R1, C03 (§3.1-3.2), C03-1, C03-2, C03-3, RN-23, D10, mapa A2, mapa S5 (la parte del día de lanzamiento), H20.
 
@@ -539,14 +539,14 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Todas las fechas son ISO (QD18) y el orden de los números respeta el de las fechas (QD10). En la copia, E6 lo reprodujo con `2026-1-5`.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P21, en el papel de Marga y Puri, 2026-11-16: Marga: «Alguna vez grabo días después pedidos de fin de mes». Puri: «No quiero que se antedate». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG A SECAS** frente a PR-1, con práctica real de antedatar (dependiente: Marga).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-16](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** el formato no ISO es un BUG A SECAS. Si la fecha libre es intencional, depende de la práctica.
   - **Pregunta que lo desbloquea (Marga y Puri):** «¿Grabáis facturas con fecha anterior a la del día, por ejemplo pedidos de diciembre grabados en enero? ¿Exige la gestoría que el orden de los números siga el de las fechas?»
 - **Dependientes:** Marga, si antedata (SUPOSICIÓN).
-- **Tratamiento (provisional):** especificar tal cual el formulario ISO.
+- **Tratamiento (acordado en RS-16; ver la tabla del §7):** especificar tal cual el formulario ISO.
   - La validación de formato puede corregirse en la modernización (**no retroactiva**).
   - La del orden, solo con decisión de Puri.
-- **Decisión pendiente (Puri):** reglas de fecha frente a número.
+- **Decisión tomada en RS-16 (Puri), antes pendiente:** reglas de fecha frente a número.
 - **Impacto:** fiscal (orden entre número y fecha) e IVA no declarado en ningún trimestre.
 - **Fuentes:** R8, RN-17, RN-50 (fecha inválida), C03 (§3.3, rareza de los dos criterios de periodo), C03-4.
 
@@ -637,14 +637,14 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO FIABLE. La BD versionada **es idéntica a la siembra** (A-04), así que no se puede descartar que la propia BD real naciera así.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P25, en el papel de Marga, 2026-11-16: «Desde un acceso directo que me hizo Julián en el escritorio. Los datos de referencia no sé qué son». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Sigue PENDIENTE: hay que revisar la carpeta de trabajo del acceso directo (AC-6). El uso de la semilla queda sin respuesta.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS (latente).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-17](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG A SECAS.
   - **Pregunta que lo desbloquea (Marga):** «¿Desde qué carpeta lanzáis la remesa (`node scripts/remesa_mensual.js` desde la carpeta de GesFact o desde `scripts`)? ¿Qué uso le da administración a los datos de referencia?»
 - **Dependientes:** administración, que usa los datos semilla de referencia (H29).
-- **Tratamiento (provisional):** **documentar sin especificar**.
+- **Tratamiento (acordado en RS-17; ver la tabla del §7):** **documentar sin especificar**.
   - En la modernización, la siembra deja de ejecutarse sola, pero los datos de referencia se conservan como documento.
   - **No es retroactivo.**
-- **Decisión pendiente (Marga):** respuesta a la pregunta.
+- **Decisión tomada en RS-17 (Marga), antes pendiente:** respuesta a la pregunta.
 - **Impacto:** números de factura repetidos entre dos BD.
 - **Fuentes:** R7, R24, RN-52, H29, mapa A7, mapa S5 (la parte de la carpeta).
 
@@ -656,12 +656,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. `FA-2026-000106` (30/04) y `RE-2026-000001` (06/05) caen en el mismo trimestre (QD1).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P22, en el papel de Puri, 2026-11-16: «La del día en que se hace, y resta en ese trimestre». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **INTENCIONAL**.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-18](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL (fecha de emisión de la rectificativa).
   - **Pregunta que lo desbloquea (Puri):** «¿La rectificativa debe llevar la fecha del día en que se hace o la de la factura original? Si caen en trimestres distintos, ¿en cuál debe restar?»
 - **Dependientes:** la gestoría (303).
-- **Tratamiento (provisional):** especificar tal cual. **No es retroactivo.**
-- **Decisión pendiente (Puri):** respuesta a la pregunta.
+- **Tratamiento (acordado en RS-18; ver la tabla del §7):** especificar tal cual. **No es retroactivo.**
+- **Decisión tomada en RS-18 (Puri), antes pendiente:** respuesta a la pregunta.
 - **Impacto:** fiscal: el IVA se desplaza entre trimestres.
 - **Fuentes:** RN-29 (fecha), RN-41 (resta en su trimestre), RN-49 (hoy), P8.
 
@@ -707,12 +707,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. El CSV no se guarda en la BD, y ningún nombre de cliente contiene `;` (QD21).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P24, en el papel de Puri, 2026-11-16: «Formato exacto, y no se cambia nada sin avisarnos. La clave identifica a vuestra empresa en nuestro importador. Las comillas no lo sé». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: formato **INTENCIONAL** byte a byte (PR-4). Comillas: sin respuesta (AC-3).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (formato) / BUG A SECAS latente (campos sin proteger).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-19](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL el formato; BUG A SECAS latente la falta de comillas.
   - **Pregunta que lo desbloquea (Puri):** «¿Seguís importando este CSV en Contaplus con este formato exacto? ¿Para qué sirve la clave? ¿Admitiría vuestro importador campos entre comillas? ¿Os importa que venga ordenado por número y no por fecha?»
 - **Dependientes:** la gestoría (Contaplus).
 - **Tratamiento:** **especificar tal cual**, byte a byte. Cualquier cambio, incluidas las comillas, solo con acuerdo escrito de Puri. **No es retroactivo.**
-- **Decisión pendiente (Puri):** respuesta a la pregunta.
+- **Decisión tomada en RS-19 (Puri), antes pendiente:** respuesta a la pregunta.
 - **Impacto:** la importación contable de todo el año.
 - **Fuentes:** RN-44, H12, R26, C03-3.
 
@@ -724,13 +724,13 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Los 6 NIF tienen 9 caracteres. `70355910k` está en minúscula, pero el dato no dice si su letra es correcta (QD21).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P26, en el papel de Marga, 2026-11-16: «Los copio del papel del cliente. Una vez devolvieron una factura y se hizo una rectificativa». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **INTENCIONAL provisional, con incidente**. La rectificativa por NIF **no está en la copia** (su única RE es por cuota duplicada, QD1): fecha y número, a la próxima ronda.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (con riesgo).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-20](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL como solución provisional.
   - **Pregunta que lo desbloquea (Marga):** «¿Cómo revisas hoy los NIF al dar de alta un cliente? ¿Ha devuelto algún cliente una factura por un NIF erróneo?»
 - **Dependientes:** Marga (control manual).
-- **Tratamiento (provisional):** especificar tal cual.
+- **Tratamiento (acordado en RS-20; ver la tabla del §7):** especificar tal cual.
   - Una validación más estricta en la modernización **no puede ser retroactiva**: los clientes existentes no se rechazan.
-- **Decisión pendiente (Marga):** respuesta a la pregunta.
+- **Decisión tomada en RS-20 (Marga), antes pendiente:** respuesta a la pregunta.
 - **Impacto:** facturas no deducibles para el cliente, que obligan a rectificar.
 - **Fuentes:** RN-47, R15, H5, H31, mapa A9.
 
@@ -781,14 +781,14 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Las facturas 101 a 104 están cobradas y son rectificables por URL. `RE-2026-000001` está emitida. No se sabe si la 106 estaba cobrada antes de rectificarse (QD1).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P27, en el papel de Puri y Marga, 2026-11-16: Puri: «La original queda rectificada y el cobro se apunta aparte». Marga: «La rectificativa se compensa o se devuelve por transferencia; lo llevo en mi Excel de cobros». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG A SECAS** sin dependientes en el programa, porque los cobros se siguen fuera (nueva **A-50**).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS (sin dependientes en el programa).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-21](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG A SECAS.
   - **Preguntas que lo desbloquean:**
     - **Marga y Puri:** «¿Se puede rectificar una factura ya cobrada? Si se hace, ¿debe seguir constando como cobrada?»
     - **Marga:** «Una rectificativa, ¿se paga o se compensa al cliente? ¿Hace falta registrarlo en el programa?»
 - **Dependientes:** el seguimiento de cobros de Marga.
-- **Tratamiento (provisional):** especificar tal cual lo que permite la vista. **No es retroactivo.**
-- **Decisión pendiente (Marga y Puri):** ciclo de estados de cobro.
+- **Tratamiento (acordado en RS-21; ver la tabla del §7):** especificar tal cual lo que permite la vista. **No es retroactivo.**
+- **Decisión tomada en RS-21 (Marga y Puri), antes pendiente:** ciclo de estados de cobro.
 - **Impacto:** seguimiento de cobros.
 - **Fuentes:** R14, RN-27, RN-30, C09, C09-1, C09-2, P9, flujo A6 (cobro de la RE), flujo A7, flujo A14.
 
@@ -800,12 +800,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** A FAVOR del diagnóstico: 4 facturas, 3.032,85 € frente a 2.910,62 € (QD20).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P28, en el papel de Marga, 2026-11-16: «Un abono no es un cobro pendiente. El panel no lo uso». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **ACCIDENTAL** sin dependientes.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-22](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Marga):** «Un abono (rectificativa), ¿es algo "pendiente de cobro"? ¿Usas el panel de inicio para seguir los cobros?»
 - **Dependientes:** Marga, si usa el panel (SUPOSICIÓN).
-- **Tratamiento (provisional):** especificar tal cual. Corregir en la modernización según la respuesta (**no retroactivo**).
-- **Decisión pendiente (Marga):** respuesta a la pregunta.
+- **Tratamiento (acordado en RS-22; ver la tabla del §7):** especificar tal cual. Corregir en la modernización según la respuesta (**no retroactivo**).
+- **Decisión tomada en RS-22 (Marga), antes pendiente:** respuesta a la pregunta.
 - **Impacto:** 1 factura y 122,23 € de diferencia en el seguimiento.
 - **Fuentes:** C04, C04-1, C04-2, flujo A6 (panel), R14 (panel).
 
@@ -819,14 +819,14 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA. La BD no registra envíos.
   - **NEGOCIO:** ninguno (H23, H24 y H25 son testimonio indirecto).
     - [acta simulada](entrevista-negocio-simulada.md), P31 y P32, en el papel de Manoli y de Dirección, 2026-11-16: Manoli: «Llevo el contrato de Arsys y el dominio». Dirección: «Queremos recuperar el envío por correo». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: el «no tocar» queda explicado (PR-5) y hay voluntad de recuperar el envío en la modernización.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-23](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL.
   - **Preguntas que lo desbloquean:**
     - **Manoli:** «¿Por qué hay que consultarte antes de tocar el correo? ¿Sigue activa la cuenta de Arsys?»
     - **Marga:** «¿Cómo controlas qué facturas quedan por enviar?»
 - **Dependientes:** Marga (envío manual) y Manoli.
 - **Tratamiento:** **especificar tal cual**: no se envía y se escribe el aviso en consola. «No tocar» sin hablar antes con Manoli. **No es retroactivo.**
-- **Decisión pendiente (dirección, con Manoli):** recuperar o no el envío automático.
+- **Decisión tomada en RS-23 (dirección, con Manoli), antes pendiente:** recuperar o no el envío automático.
 - **Impacto:** facturas sin enviar que retrasan el cobro.
 - **Fuentes:** RN-20, R12, H23, H24, H25.
 
@@ -838,12 +838,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Ningún cliente tiene `dias_pago = 0` (QD21). Los vencimientos son de 30 o 60 días según el cliente (QD12).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P29, en el papel de Marga, 2026-11-16: «Al contado. Ahora no hay ninguno». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **BUG A SECAS latente**. Coincide con QD21 (ningún cliente con `dias_pago` = 0).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: BUG A SECAS (latente).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-24](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** BUG A SECAS.
   - **Pregunta que lo desbloquea (Marga):** «Un cliente con 0 días de pago, ¿debe vencer al contado o a 30 días? ¿Hay o habrá clientes de contado?»
 - **Dependientes:** nadie identificado.
-- **Tratamiento (provisional):** especificar tal cual. **No es retroactivo.**
-- **Decisión pendiente (Marga):** respuesta a la pregunta.
+- **Tratamiento (acordado en RS-24; ver la tabla del §7):** especificar tal cual. **No es retroactivo.**
+- **Decisión tomada en RS-24 (Marga), antes pendiente:** respuesta a la pregunta.
 - **Impacto:** vencimientos con 30 días de más.
 - **Fuentes:** RN-18 (0 → 30), flujo A12, P12.
 
@@ -855,12 +855,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Todos los vencimientos son de 30 o 60 días (QD12). En la copia, E5 lo reprodujo con `VENCIMIENTO_DIAS: 45`.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P30, en el papel de Julián y Marga, 2026-11-16: Julián: «Creo que 30, pero no lo he mirado; lo copio yo». Marga: «El plazo vale también para las cuotas». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **ACCIDENTAL** (CN-7). El valor en producción queda sin respuesta (AC-6).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-25](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Julián):** «¿Qué valor tiene `VENCIMIENTO_DIAS` en el `config.js` del servidor de la oficina y en el del ordenador de Marga? ¿Quién copia ese fichero?»
 - **Dependientes:** el despliegue manual de `config.js` (H28), con el aviso de no renombrarlo.
-- **Tratamiento (provisional):** especificar tal cual las dos fuentes. «No renombrar» `config.js`. **No es retroactivo.**
-- **Decisión pendiente:**
+- **Tratamiento (acordado en RS-25; ver la tabla del §7):** especificar tal cual las dos fuentes. «No renombrar» `config.js`. **No es retroactivo.**
+- **Decisión tomada en RS-25, antes pendiente:**
   - **Julián:** valor real en producción.
   - **Marga:** «Si se pacta otro plazo por defecto, ¿se aplica también a las cuotas?»
 - **Impacto:** vencimientos distintos según el camino.
@@ -893,12 +893,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA. La BD no puede decir qué se lleva fuera de ella. 4 de las 9 facturas de la copia constan como `cobrada` (QD1), así que alguien usa el botón de cobro, al menos a veces.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P27, P28 e IN-3, en el papel de Marga, 2026-11-16: «La rectificativa se compensa en la siguiente factura o se devuelve por transferencia. Lo llevo en mi Excel de cobros. El panel no lo uso». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (práctica de administración fuera del programa).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-35](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** dependencia externa (proceso manual) de la que dependen los cobros. Explicaría que A-33 y A-34 no tengan dependientes en el programa.
   - **Preguntas que lo desbloquean (Marga):** «¿Desde cuándo llevas el Excel de cobros? ¿Quién más lo usa o lo recibe (Puri, dirección)? ¿Dónde se guarda y tiene copia? Si marcas una factura como cobrada en GesFact, ¿lo haces siempre, a veces o nunca?»
 - **Dependientes:** Marga y, si lo recibe, la gestoría.
-- **Tratamiento (provisional):** **documentar sin especificar**. La spec de cobros describe los estados del programa sin presentarlos como registro contable. La modernización decidirá la fuente única. **No es retroactivo.**
-- **Decisión pendiente (Marga y dirección):** fuente de verdad de los cobros.
+- **Tratamiento (acordado en RS-35; ver la tabla del §7):** **documentar sin especificar**. La spec de cobros describe los estados del programa sin presentarlos como registro contable. La modernización decidirá la fuente única. **No es retroactivo.**
+- **Decisión tomada en RS-35 (Marga y dirección), antes pendiente:** fuente de verdad de los cobros.
 - **Impacto:** sin efecto en los importes facturados. Cobros que solo constan en un fichero personal, sin copia ni control (R31).
 - **Fuentes:** acta simulada P27, P28 e IN-3; A-33; A-34; R14; R31.
 
@@ -914,12 +914,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P32, en el papel de Dirección, 2026-11-16: «La red, sí, pero no sé si la wifi de clientes está separada». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Sin respuesta concluyente; sigue PENDIENTE.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL (riesgo aceptado hasta la modernización).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-26](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (dirección):** «¿Se da por buena la red de la oficina como de confianza? ¿Quién más está conectado a ella?»
 - **Dependientes:** nadie identificado.
 - **Tratamiento:** **corregir en fase de modernización**, sin alterar las respuestas de las operaciones autorizadas. **No es retroactivo.**
-- **Decisión pendiente (dirección):** modelo de acceso.
+- **Decisión tomada en RS-26 (dirección), antes pendiente:** modelo de acceso.
 - **Impacto:** facturas emitidas o rectificadas por terceros sin rastro.
 - **Fuentes:** R19.
 
@@ -933,7 +933,7 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P24 y P31, en el papel de Puri y Manoli, 2026-11-16: Puri: «La clave identifica a vuestra empresa en nuestro importador». Manoli: «La contraseña del fichero es antigua; la cambié en 2022». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: la credencial SMTP está caducada (menos riesgo) y la clave identifica, no protege. Reutilización de la contraseña: sin respuesta.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-27](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Preguntas que lo desbloquean:**
     - **Manoli:** «¿La contraseña de `config.js` sigue siendo válida? ¿Se usa en otras cuentas?»
@@ -943,7 +943,7 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **Especificar tal cual** la clave en el CSV, porque es formato acordado.
   - La gestión de secretos se **corrige en la modernización**. La rotación de la contraseña es una acción de operación, fuera del código.
   - **No es retroactivo.**
-- **Decisión pendiente:** Manoli (correo) y Puri (clave).
+- **Decisión tomada en RS-27, antes pendiente:** Manoli (correo) y Puri (clave).
 - **Impacto:** suplantación del buzón de facturación.
 - **Fuentes:** R10, R16, mapa A11 (contraseña).
 
@@ -955,12 +955,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NIF de personas físicas en `clientes` (QD21: `03488812K`, `70355910k`).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P32 y P33, en el papel de Dirección y Julián, 2026-11-16: Dirección: «RGPD: la gerencia». Julián: «La BD la subí al repositorio a propósito, como copia». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: versionado **intencional** con riesgo RGPD; responsable fijado. El repositorio pasa a ser, de hecho, la única copia fuera del pendrive (ver A-42).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (con riesgo RGPD).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-28](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Julián y dirección):** «¿Se versiona la BD a propósito, por ejemplo como copia de seguridad? ¿Quién tiene copias del repositorio?»
 - **Dependientes:** la posible copia de seguridad implícita (SUPOSICIÓN).
 - **Tratamiento:** **corregir en fase de modernización**. Sacar la BD del control de versiones no altera el comportamiento, pero el historial ya publicado no se puede deshacer.
-- **Decisión pendiente (dirección):** responsable de RGPD.
+- **Decisión tomada en RS-28 (dirección), antes pendiente:** responsable de RGPD.
 - **Impacto:** RGPD.
 - **Fuentes:** R17, mapa A11 (BD y `node_modules`).
 
@@ -972,12 +972,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P34 y P32, en el papel de Marga y Dirección, 2026-11-16: Marga: «Los viernes, con el programa abierto, en un único pendrive en mi cajón». Dirección: «Queremos copias automáticas». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: INTENCIONAL con riesgo **agravado**: copiar el fichero SQLite con el servidor abierto puede dar una copia inconsistente (R20).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: INTENCIONAL (con riesgo agravado).** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-29](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** INTENCIONAL como procedimiento, con riesgo.
   - **Pregunta que lo desbloquea (Marga):** «¿Se sigue haciendo la copia? ¿Con la aplicación cerrada? ¿Dónde se guarda el pendrive y cuántas copias hay?»
 - **Dependientes:** Marga.
 - **Tratamiento:** **documentar sin especificar**. Es operación, no comportamiento del programa.
-- **Decisión pendiente (dirección):** política de copias.
+- **Decisión tomada en RS-29 (dirección), antes pendiente:** política de copias.
 - **Impacto:** hasta una semana de facturación numerada perdida.
 - **Fuentes:** R20, H32.
 
@@ -991,12 +991,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P33, en el papel de Julián, 2026-11-16: «Node 12, instalado en 2021». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: resuelve `TODO(VERSION_NODE_PRODUCCION)`. Consecuencia: los tests de caracterización (`node:test`, Node ≥ 18) **no pueden ejecutarse en el servidor de producción**, y el npm de Node 12 no entiende el lockfile v3 (R33).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-30](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Julián):** «¿Qué versión de Node hay instalada en el servidor de la oficina? ¿Quién actualizó el LEEME después de 2019?»
 - **Dependientes:** la instalación en ordenadores nuevos.
 - **Tratamiento:** **documentar sin especificar**. La actualización corresponde a la modernización (principio IV: hoy no se toca `package.json`).
-- **Decisión pendiente (Julián):** versión real en producción (`TODO(VERSION_NODE_PRODUCCION)` de la constitución).
+- **Decisión tomada en RS-30 (Julián), antes pendiente:** versión real en producción (`TODO(VERSION_NODE_PRODUCCION)` de la constitución).
 - **Impacto:** un ordenador nuevo queda con dependencias vulnerables o sin arrancar.
 - **Fuentes:** R18, H14, mapa A10, mapa S1.
 
@@ -1008,12 +1008,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA.
   - **EJECUCIÓN:** `pruebas/caracterizacion/servidor-informes.test.js`, test «el error 500 no controlado devuelve la traza con rutas del servidor», con el servidor real sobre una copia.
   - **NEGOCIO:** ninguno.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-36](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL. Su gravedad depende del modelo de acceso que decida dirección (A-39).
   - **Pregunta que lo desbloquea (dirección):** la misma de A-39: «¿Desde dónde se accede a GesFact y quién puede llegar al puerto 3000?»
 - **Dependientes:** nadie identificado.
 - **Tratamiento:** **corregir en fase de modernización**, junto con A-39. Cambiar la página de error es un cambio de respuesta HTTP: necesita decisión escrita (principio I).
-- **Decisión pendiente (dirección):** modelo de acceso (A-39).
+- **Decisión tomada en RS-36 (dirección), antes pendiente:** modelo de acceso (A-39).
 - **Impacto:** revela a quien llegue al servidor la estructura de carpetas y el código que falla.
 - **Fuentes:** RN-42, A-39, A-47.
 
@@ -1031,12 +1031,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. No hay pantalla para modificar clientes, así que hoy la marca no puede cambiar (contradicciones §3).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P34, en el papel de Marga, 2026-11-16: «El teléfono está sin completar». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **ACCIDENTAL** (dato pendiente de completar).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-31](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Marga):** «¿El teléfono que sale en las facturas es el real o falta completarlo? ¿Se ha cambiado alguna vez a un cliente de régimen de recargo?»
 - **Dependientes:** los clientes, que reciben la factura.
-- **Tratamiento (provisional):** especificar tal cual. **No es retroactivo**: los PDF ya enviados no cambian.
-- **Decisión pendiente (Marga):** respuesta a la pregunta.
+- **Tratamiento (acordado en RS-31; ver la tabla del §7):** especificar tal cual. **No es retroactivo**: los PDF ya enviados no cambian.
+- **Decisión tomada en RS-31 (Marga), antes pendiente:** respuesta a la pregunta.
 - **Fuentes:** RN-51 (teléfono), contradicciones §3 (marca de recargo).
 
 ### A-45 · Los contratos no tienen pantalla de alta, y hay tres valores de IVA por defecto independientes
@@ -1049,12 +1049,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NEUTRO. Los 4 contratos llevan el 21 % (QD22).
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P33, en el papel de Julián, 2026-11-16: «Los contratos los doy de alta yo con una petición directa, siempre al 21 %». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: **ACCIDENTAL**, con dependencia de una sola persona (R32).
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-32](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (Marga y Julián):** «¿Cómo se dan de alta hoy los contratos, si no hay pantalla? ¿Quién elige su tipo de IVA?»
 - **Dependientes:** quien dé de alta los contratos (desconocido).
 - **Tratamiento:** **documentar sin especificar**.
-- **Decisión pendiente (Julián):** respuesta a la pregunta.
+- **Decisión tomada en RS-32 (Julián), antes pendiente:** respuesta a la pregunta.
 - **Fuentes:** C07 (tres valores por defecto), C07-2, C07-3, mapa S3, tabla de constantes de `reglas-de-negocio.md` (`IVA_DEFECTO` inalcanzable).
 
 ### A-46 · No está garantizado el orden de las líneas de una factura ni el de los contratos en la remesa
@@ -1104,12 +1104,12 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
   - **DATOS:** NO APLICA.
   - **NEGOCIO:** ninguno.
     - [acta simulada](entrevista-negocio-simulada.md), P32, en el papel de Dirección, 2026-11-16: «MySQL, descartado. Los albaranes siguen haciendo falta; a Roberto no lo localizamos». **SUPOSICIÓN**: no cuenta como testigo NEGOCIO (principio II; ver §9). Si se confirma: MySQL descartado; albaranes como requisito futuro sin código ni autor localizable.
-- **Clasificación: PENDIENTE.**
+- **Clasificación: ACCIDENTAL.** Cerrada el 2026-11-16 con testigo NEGOCIO-RS ([ratificación simulada RS-33](ratificacion-negocio-simulada.md#3-cierre-de-las-36-pendientes); deuda de confirmación real antes de corregir nada). Antes: PENDIENTE; debajo se conservan la hipótesis y la pregunta que la desbloqueaba.
   - **Hipótesis:** ACCIDENTAL.
   - **Pregunta que lo desbloquea (dirección):** «¿Se descartan definitivamente la migración a MySQL y el módulo de albaranes? ¿Roberto sigue localizable?»
 - **Dependientes:** nadie identificado.
 - **Tratamiento:** **documentar sin especificar**. `datos/migracion_mysql_2018.sql` no se ejecuta nunca.
-- **Decisión pendiente (dirección):** respuesta a la pregunta.
+- **Decisión tomada en RS-33 (dirección), antes pendiente:** respuesta a la pregunta.
 - **Fuentes:** R27, H10, H22, H25 (código comentado), H27, mapa S6.
 
 ### A-51 · Un importe infinito se formatea como «Infinity,undefined» (nueva, de la caracterización)
@@ -1130,162 +1130,103 @@ A-49 y A-50 salen del acta simulada. Se colocan al final de su tramo sin renumer
 
 ## 7. Tabla resumen
 
-| ID | Clasificación | Tratamiento | Decisión pendiente (responsable) | Propuesta del acta simulada (**no aplicada**) |
+Estado tras la [ratificación simulada](ratificacion-negocio-simulada.md) del 2026-11-16 (§9). La columna «Testigo de cierre» distingue las entradas cerradas con CÓDIGO y DATOS de las cerradas con NEGOCIO-RS. Estas últimas arrastran una **deuda de confirmación**: antes de corregir nada en la modernización, la persona real debe confirmarlas por escrito.
+
+| ID | Clasificación | Tratamiento acordado | Decisión de negocio | Testigo de cierre |
 | --- | --- | --- | --- | --- |
-| A-01 | BUG HISTÓRICO CON DEPENDIENTES | Documentar sin especificar; corrección solo por rectificativa, no retroactiva | Qué cifra vale y si se rectifican 101/105/107/108 (Puri); devolución de 3,70 € (dirección) | Sin cambio. Decisiones: rectificar 101/105/107/108; abono de 3,70 € (choca con CN-5) |
-| A-02 | **PENDIENTE** (BUG HISTÓRICO CON DEPENDIENTES) | Especificar tal cual (provisional) | Fuente única de importes; cifra del 303 del 1T (Puri) | BUG HISTÓRICO CON DEPENDIENTES (P01) |
-| A-03 | BUG A SECAS | Corregir en modernización, no retroactivo | Criterio de «mes ya facturado» y fallos a mitad (Marga) | Sin cambio. Criterio: contrato + mes (P05) |
-| A-04 | **PENDIENTE** (BUG HISTÓRICO CON DEPENDIENTES / ACCIDENTAL) | Documentar sin especificar; migrar sin recalcular | Origen de los datos (Julián); BD de producción (Marga) | BUG HISTÓRICO CON DEPENDIENTES (101) / ACCIDENTAL (remesas); QD4 abierta (P03, P04) |
-| A-05 | BUG A SECAS | Corregir en modernización, no retroactivo | Formatos de número admitidos (Marga) | Sin cambio; riesgo real (P34) |
-| A-06 | **PENDIENTE** (BUG HISTÓRICO CON DEPENDIENTES) | Especificar tal cual (provisional) | Facturación del mes de baja (Marga) | BUG A SECAS latente (P08) |
-| A-07 | **PENDIENTE** (BUG A SECAS) | Especificar tal cual (provisional) | Significado de «cliente de baja» (Marga, Paco) | BUG A SECAS (P06) |
-| A-08 | **PENDIENTE** (ACCIDENTAL) | Especificar tal cual (provisional) | Definición de contrato vigente (Marga) | ACCIDENTAL (P12) |
-| A-09 | **PENDIENTE** (INTENCIONAL / ACCIDENTAL) | Especificar tal cual | Descuento escalonado o sobre toda la base (Paco) | INTENCIONAL (diseño) / ACCIDENTAL (no monotonía); portes abiertos (P07) |
-| A-10 | **PENDIENTE** (INTENCIONAL) | Especificar tal cual | Sentido de «a partir de 1.000» (Paco) | INTENCIONAL (P09) |
-| A-11 | **PENDIENTE** (INTENCIONAL / ACCIDENTAL) | Especificar tal cual (provisional) | Forma de presentar el descuento (Puri) | INTENCIONAL (desglose) / ACCIDENTAL (redondeo) (P16) |
-| A-12 | **PENDIENTE** (ACCIDENTAL) | Especificar tal cual (provisional) | Descuento en cuotas (Paco) | BUG A SECAS latente (P13) |
-| A-13 | **PENDIENTE** (INTENCIONAL / ACCIDENTAL) | Especificar tal cual las dos fórmulas | Convenio único de prorrateo (Paco, Puri) | INTENCIONAL (30 días) / ACCIDENTAL (días reales), más CN-1 (P10) |
-| A-14 | **PENDIENTE** (INTENCIONAL / BUG A SECAS) | Especificar tal cual | Tipos válidos y su recargo (Puri) | INTENCIONAL (precio libre); tipos y recargo del 5 % abiertos (P14) |
-| A-15 | **PENDIENTE** (ACCIDENTAL) | Especificar tal cual (provisional) | Abonos parciales en la serie FA (Marga, Puri) | INTENCIONAL, solo envases (P15) |
-| A-16 | **PENDIENTE** (INTENCIONAL) | Especificar tal cual («no tocar») | Mantener los tipos antiguos (Puri) | INTENCIONAL (P19) |
-| A-17 | **PENDIENTE** (INTENCIONAL) | Especificar tal cual; no se corrige | Confirmar el criterio de Contaplus (Puri) | INTENCIONAL (P17) |
-| A-18 | ACCIDENTAL | Especificar tal cual | Redondeo del medio céntimo en Contaplus (Puri) | Sin respuesta (P18) |
-| A-19 | ACCIDENTAL | Especificar los formatos externos; documentar los internos; corregir los internos en la modernización | Uso de cifras de pantallas internas (Marga) | — |
-| A-20 | **PENDIENTE** (BUG HISTÓRICO CON DEPENDIENTES) | Especificar tal cual; nunca retroactivo | Regla del año de la serie (Puri); práctica de enero (Marga) | BUG HISTÓRICO CON DEPENDIENTES (P20) |
-| A-21 | **PENDIENTE** (BUG A SECAS / INTENCIONAL) | Especificar tal cual; validar el formato en la modernización | Fecha frente a número (Puri); antedatado (Marga) | BUG A SECAS, frente a PR-1 (P21) |
-| A-22 | BUG A SECAS | Corregir en modernización, no retroactivo | Procedimiento ante un hueco (Puri), informativa | Sin cambio. Procedimiento ante huecos (P23) |
-| A-23 | BUG A SECAS | Corregir en modernización, no retroactivo | — | Sin cambio; dos puestos simultáneos (P34) |
-| A-24 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — |
-| A-25 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — |
-| A-26 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — |
-| A-27 | **PENDIENTE** (BUG A SECAS) | Documentar sin especificar | Carpeta de lanzamiento y uso de la semilla (Marga) | Sin cambio; acceso directo por revisar (P25) |
-| A-28 | **PENDIENTE** (INTENCIONAL) | Especificar tal cual (provisional) | Fecha de la rectificativa (Puri) | INTENCIONAL (P22) |
-| A-29 | INTENCIONAL | Especificar tal cual; no se corrige | — (rectificación parcial: Puri, informativa) | — |
-| A-30 | INTENCIONAL | Especificar tal cual; no se corrige | — (acta de 2020: Puri o dirección, informativa) | Sin cambio (P23) |
-| A-31 | **PENDIENTE** (INTENCIONAL / BUG A SECAS latente) | Especificar tal cual, byte a byte | Vigencia del formato y de la clave; comillas (Puri) | INTENCIONAL (formato); comillas abiertas (P24) |
-| A-32 | **PENDIENTE** (INTENCIONAL provisional) | Especificar tal cual (provisional) | Revisión de NIF (Marga) | INTENCIONAL provisional, con incidente (P26) |
-| A-33 | **PENDIENTE** (BUG A SECAS) | Especificar tal cual (provisional) | Ciclo de estados de cobro (Marga, Puri) | BUG A SECAS, sin dependientes en el programa (P27) |
-| A-34 | **PENDIENTE** (ACCIDENTAL) | Especificar tal cual (provisional) | ¿Un abono está pendiente de cobro? (Marga) | ACCIDENTAL (P28) |
-| A-35 | **PENDIENTE** (INTENCIONAL) | Especificar tal cual («no tocar») | Recuperar el envío (dirección, con Manoli) | INTENCIONAL («no tocar» explicado) (P31) |
-| A-36 | **PENDIENTE** (BUG A SECAS) | Especificar tal cual (provisional) | Contado o 30 días (Marga) | BUG A SECAS latente (P29) |
-| A-37 | **PENDIENTE** (ACCIDENTAL) | Especificar tal cual (provisional) | Valor real en `config.js` (Julián); plazo de las cuotas (Marga) | ACCIDENTAL; valor en producción abierto (P30) |
-| A-38 | ACCIDENTAL | Especificar tal cual (hora de Madrid); independizar de la zona en la modernización | — (marzo de 2019: Julián, informativa) | — |
-| A-39 | **PENDIENTE** (ACCIDENTAL) | Corregir en modernización | Modelo de acceso (dirección) | Sin respuesta (P32) |
-| A-40 | **PENDIENTE** (ACCIDENTAL) | Especificar la clave del CSV; corregir la gestión de secretos | Vigencia de la contraseña (Manoli); uso de la clave (Puri) | Sin cambio; reutilización abierta (P24, P31) |
-| A-41 | **PENDIENTE** (ACCIDENTAL) | Corregir en modernización | Responsable de RGPD (dirección) | INTENCIONAL con riesgo RGPD (P32, P33) |
-| A-42 | **PENDIENTE** (INTENCIONAL con riesgo) | Documentar sin especificar | Política de copias (dirección) | INTENCIONAL con riesgo agravado (P34) |
-| A-43 | **PENDIENTE** (ACCIDENTAL) | Documentar sin especificar | Versión de Node en producción (Julián) | ACCIDENTAL; Node 12 (P33) |
-| A-44 | **PENDIENTE** (ACCIDENTAL) | Especificar tal cual (provisional) | Teléfono real (Marga) | ACCIDENTAL (P34) |
-| A-45 | **PENDIENTE** (ACCIDENTAL) | Documentar sin especificar | Alta de contratos (Julián) | ACCIDENTAL; una sola persona (P33) |
-| A-46 | ACCIDENTAL | Documentar sin especificar | — | — |
-| A-47 | ACCIDENTAL | Documentar sin especificar | — | — |
-| A-48 | **PENDIENTE** (ACCIDENTAL) | Documentar sin especificar | Descartar MySQL y albaranes (dirección) | Sin cambio; MySQL descartado, albaranes requisito (P32) |
-| A-49 | **PENDIENTE** (proceso manual del que depende la facturación) | Documentar sin especificar | Alcance y registro de las bonificaciones (Paco) | Nueva, del acta (P11, IN-2) |
-| A-50 | **PENDIENTE** (dependencia externa) | Documentar sin especificar | Fuente de verdad de los cobros (Marga, dirección) | Nueva, del acta (P27, P28, IN-3) |
-| A-51 | ACCIDENTAL | Documentar sin especificar | — | — (nueva, de la caracterización) |
-| A-52 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — (nueva, de la caracterización) |
-| A-53 | **PENDIENTE** (ACCIDENTAL) | Corregir en modernización | Modelo de acceso (dirección), como A-39 | — (nueva, de la caracterización) |
-| A-54 | BUG A SECAS | Corregir en modernización, no retroactivo | — | — (nueva, de la caracterización) |
+| A-01 | BUG HISTÓRICO CON DEPENDIENTES | Documentar sin especificar; corrección solo por rectificativa, no retroactiva | Rectificar 101/105/107/108 con RE total y factura nueva; los 3,70 € van en la factura nueva, no como línea negativa (N-01) | CÓDIGO + DATOS; decisión RS |
+| A-02 | BUG HISTÓRICO CON DEPENDIENTES | Especificar tal cual; unificar en modernización en la cabecera (fuente del CSV); no retroactivo | El 303 se presenta con el CSV (P01) | NEGOCIO-RS (RS-01) |
+| A-03 | BUG A SECAS | Corregir en modernización, no retroactivo | Una cuota por contrato y mes (CN-4); origen del caso de abril (N-03) | CÓDIGO + DATOS; decisión RS |
+| A-04 | BUG HISTÓRICO CON DEPENDIENTES (101) / ACCIDENTAL (versiones anteriores) | Documentar sin especificar; migrar sin recalcular | BD = selección de mayo de 2026 (P03, N-11); modo «por importe» retirado (P04) | NEGOCIO-RS (RS-02) |
+| A-05 | BUG A SECAS | Corregir en modernización, no retroactivo | Se admiten `1.234,56` y `1234,56`; lo ambiguo se rechaza | CÓDIGO + DATOS; decisión RS |
+| A-06 | BUG A SECAS (latente) | Especificar tal cual; corregir el aviso de la vista | No se emite factura manual del mes de baja (P08) | NEGOCIO-RS (RS-03) |
+| A-07 | BUG A SECAS | Especificar tal cual; corregir en alta y remesa; no retroactivo | A un cliente de baja no se le factura nunca (CN-3) | NEGOCIO-RS (RS-04) |
+| A-08 | ACCIDENTAL | Especificar tal cual; corregir la pantalla | Vigente hasta la fecha de baja (P12) | NEGOCIO-RS (RS-05) |
+| A-09 | INTENCIONAL (diseño) / ACCIDENTAL aceptada (no monotonía) | Especificar tal cual; no se corrige | Toda la base, portes incluidos (CN-10) | NEGOCIO-RS (RS-06) |
+| A-10 | INTENCIONAL | Especificar tal cual; no se corrige | «A partir de» = «por encima de» (CN-8) | NEGOCIO-RS (RS-07) |
+| A-11 | INTENCIONAL (desglose) / ACCIDENTAL aceptada (redondeo) | Especificar tal cual; no se corrige | Desglose por línea; sin precio de tarifa (P16) | NEGOCIO-RS (RS-08) |
+| A-12 | BUG A SECAS (latente) | Especificar tal cual; corregir; no retroactivo | Las cuotas nunca llevan descuento (CN-2) | NEGOCIO-RS (RS-09) |
+| A-13 | INTENCIONAL (30 días) / ACCIDENTAL (días reales) / BUG A SECAS latente (febrero completo) | Especificar tal cual las dos fórmulas; unificar según CN-1 y CN-9 | Días/30; mes completo = cuota entera (CN-1, CN-9) | NEGOCIO-RS (RS-10) |
+| A-14 | INTENCIONAL (precio libre) / BUG A SECAS latente (tipos fuera de tabla) | Especificar tal cual; validar tipos en modernización | Tipos válidos 21/10/4; nunca se facturó a otros (P14) | NEGOCIO-RS (RS-11) |
+| A-15 | INTENCIONAL (envases) | Especificar tal cual | Negativas en FA solo para envases (CN-5) | NEGOCIO-RS (RS-12) |
+| A-16 | INTENCIONAL | Especificar tal cual («no tocar») | Se mantienen los tipos antiguos (P19) | NEGOCIO-RS (RS-13) |
+| A-17 | INTENCIONAL | Especificar tal cual; no se corrige | Línea a línea, mismo Contaplus (P17, PR-4) | NEGOCIO-RS (RS-14) |
+| A-18 | ACCIDENTAL | Especificar tal cual | Contaplus no recalcula: manda GesFact (P18) | CÓDIGO + DATOS; decisión RS |
+| A-19 | ACCIDENTAL | Especificar los formatos externos; documentar los internos; corregir los internos en modernización | Las pantallas internas no se usan como fuente (P28) | CÓDIGO + DATOS; decisión RS |
+| A-20 | BUG HISTÓRICO CON DEPENDIENTES | Especificar tal cual; nunca retroactivo | Año del número = año de la fecha (CN-6); diciembre de 2025 se deja con nota (N-02, PR-2) | NEGOCIO-RS (RS-15) |
+| A-21 | BUG A SECAS | Especificar tal cual; validar fecha y orden en modernización | No se antedata (PR-1) | NEGOCIO-RS (RS-16) |
+| A-22 | BUG A SECAS | Corregir en modernización, no retroactivo | Número anulado: constancia escrita y nunca se reutiliza (PR-3) | CÓDIGO + DATOS; decisión RS |
+| A-23 | BUG A SECAS | Corregir en modernización, no retroactivo | — (sin repeticiones desde 2021, N-12) | CÓDIGO + DATOS |
+| A-24 | BUG A SECAS | Corregir en modernización, no retroactivo | — | CÓDIGO + DATOS |
+| A-25 | BUG A SECAS | Corregir en modernización, no retroactivo | — | CÓDIGO + DATOS |
+| A-26 | BUG A SECAS | Corregir en modernización, no retroactivo | — | CÓDIGO + DATOS |
+| A-27 | BUG A SECAS (latente) | Documentar sin especificar el arranque; especificar su efecto en la remesa | El acceso directo arranca en la carpeta correcta; la semilla no se usa (P25) | NEGOCIO-RS (RS-17) |
+| A-28 | INTENCIONAL | Especificar tal cual | Fecha del día; resta en ese trimestre (P22) | NEGOCIO-RS (RS-18) |
+| A-29 | INTENCIONAL | Especificar tal cual; no se corrige | — | CÓDIGO + DATOS |
+| A-30 | INTENCIONAL | Especificar tal cual; no se corrige | — | CÓDIGO + DATOS |
+| A-31 | INTENCIONAL (formato) / BUG A SECAS latente (campos sin proteger) | Especificar tal cual, byte a byte; proteger campos solo con acuerdo de la gestoría | Formato exacto; sin comillas (P24) | NEGOCIO-RS (RS-19) |
+| A-32 | INTENCIONAL (con riesgo) | Especificar tal cual; validar NIF en modernización | Revisión manual; un incidente en 2023 (P26, N-08) | NEGOCIO-RS (RS-20) |
+| A-33 | BUG A SECAS (sin dependientes en el programa) | Especificar tal cual; corregir el ciclo de estados | Los cobros van en el Excel (P27) | NEGOCIO-RS (RS-21) |
+| A-34 | ACCIDENTAL | Especificar tal cual; corregir | Un abono no es un cobro pendiente (P28) | NEGOCIO-RS (RS-22) |
+| A-35 | INTENCIONAL | Especificar tal cual («no tocar»); recuperar el envío en modernización con Manoli | Desactivado tras el cambio de contraseña de 2022 (N-13, PR-5) | NEGOCIO-RS (RS-23) |
+| A-36 | BUG A SECAS (latente) | Especificar tal cual; corregir; no retroactivo | 0 días = al contado (P29) | NEGOCIO-RS (RS-24) |
+| A-37 | ACCIDENTAL | Especificar tal cual; unificar | Valor en producción: 30; plazo único (CN-7) | NEGOCIO-RS (RS-25) |
+| A-38 | ACCIDENTAL | Especificar tal cual (hora de Madrid); independizar de la zona en modernización | — | CÓDIGO + DATOS |
+| A-39 | ACCIDENTAL (riesgo aceptado) | Corregir en modernización | Red de confianza, wifi separada (P32) | NEGOCIO-RS (RS-26) |
+| A-40 | ACCIDENTAL | Especificar la clave del CSV; corregir la gestión de secretos | Contraseña caducada y no reutilizada (P31) | NEGOCIO-RS (RS-27) |
+| A-41 | INTENCIONAL (con riesgo RGPD) | Corregir en modernización | Responsable de RGPD: la gerencia (P32) | NEGOCIO-RS (RS-28) |
+| A-42 | INTENCIONAL (con riesgo agravado) | Documentar sin especificar; plan de copias en modernización | Nunca restaurada (N-10) | NEGOCIO-RS (RS-29) |
+| A-43 | ACCIDENTAL | Documentar sin especificar | Node 12 en producción (P33, N-09) | NEGOCIO-RS (RS-30) |
+| A-44 | ACCIDENTAL | Especificar tal cual; completar el dato | Teléfono sin completar (P34) | NEGOCIO-RS (RS-31) |
+| A-45 | ACCIDENTAL | Documentar sin especificar la falta de pantalla; especificar los valores por defecto | Solo Julián da de alta contratos (P33) | NEGOCIO-RS (RS-32) |
+| A-46 | ACCIDENTAL | Documentar sin especificar | — | CÓDIGO + DATOS |
+| A-47 | ACCIDENTAL | Documentar sin especificar | — | CÓDIGO + DATOS |
+| A-48 | ACCIDENTAL | Documentar sin especificar | MySQL descartado; albaranes, requisito futuro (P32) | NEGOCIO-RS (RS-33) |
+| A-49 | INTENCIONAL (práctica comercial fuera del programa) | Documentar sin especificar | Bonificación caso a caso, anotada en papel (N-04, N-05) | NEGOCIO-RS (RS-34) |
+| A-50 | INTENCIONAL (práctica de administración fuera del programa) | Documentar sin especificar | El Excel es la fuente de los cobros (N-06) | NEGOCIO-RS (RS-35) |
+| A-51 | ACCIDENTAL | Documentar sin especificar | — | CÓDIGO + EJECUCIÓN |
+| A-52 | BUG A SECAS | Corregir en modernización, no retroactivo | — | CÓDIGO + EJECUCIÓN |
+| A-53 | ACCIDENTAL | Corregir en modernización | Mismo modelo de acceso que A-39 | NEGOCIO-RS (RS-36) |
+| A-54 | BUG A SECAS | Corregir en modernización, no retroactivo | — | CÓDIGO + EJECUCIÓN |
 
-**Recuento:**
+**Recuento (54 entradas, por clase principal; las mixtas cuentan una vez, por su primera clase):**
 
-- Cerradas, **18**:
-  - 2 INTENCIONALES (A-29, A-30);
-  - 1 BUG HISTÓRICO CON DEPENDIENTES (A-01);
-  - 9 BUG A SECAS (A-03, A-05, A-22 a A-26, A-52, A-54);
-  - 6 ACCIDENTALES (A-18, A-19, A-38, A-46, A-47, A-51).
-- **PENDIENTES: 36**: las 33 anteriores, A-49 y A-50, que salen del acta simulada, y A-53, que sale de la caracterización.
-- A-51 a A-54 salen de la red de caracterización (§9). Se colocan al final de su tramo sin renumerar: A-52 y A-54 en el tramo 3, A-53 en el 5 y A-51 en el 6.
-- **Cerradas por el acta simulada: 0.** La columna «Propuesta» dice a qué pasaría cada una si la persona real confirma la respuesta (§9).
+- **INTENCIONAL**, **18**: A-09, A-10, A-11, A-13, A-14, A-15, A-16, A-17, A-28, A-29, A-30, A-31, A-32, A-35, A-41, A-42, A-49 y A-50. A-09, A-11, A-13, A-14 y A-31 son mixtas: ver su clasificación.
+- **BUG HISTÓRICO CON DEPENDIENTES**, **4**: A-01, A-02, A-04 (mixta) y A-20.
+- **BUG A SECAS**, **16**: A-03, A-05, A-06, A-07, A-12, A-21, A-22, A-23, A-24, A-25, A-26, A-27, A-33, A-36, A-52 y A-54.
+- **ACCIDENTAL**, **16**: A-08, A-18, A-19, A-34, A-37, A-38, A-39, A-40, A-43, A-44, A-45, A-46, A-47, A-48, A-51 y A-53.
+- **PENDIENTES: 0.**
+- **Por testigo de cierre:** 18 con CÓDIGO + DATOS (o EJECUCIÓN), y 36 con NEGOCIO-RS, que arrastran deuda de confirmación.
 
 ---
 
-## 8. Clasificaciones PENDIENTES: agenda de la próxima conversación con el negocio
+## 8. Clasificaciones PENDIENTES
 
-**La lista NO está vacía: 35 PENDIENTES.** Hasta que lo esté no se deben escribir las specs formales.
+**La lista está vacía: 0 PENDIENTES** desde el 2026-11-16. Las 36 que quedaban se cerraron con la [ratificación simulada](ratificacion-negocio-simulada.md), por instrucción escrita del responsable del proyecto (§9).
 
-**Estado tras el acta simulada (2026-11-16).** El acta ensayó todas las preguntas de esta agenda, pero su testimonio es SUPOSICIÓN y no ha cerrado ninguna clasificación. En la entrevista real cada pregunta llega con una respuesta prevista que hay que **confirmar o refutar** con la persona, anotando su nombre y la fecha. La sección «Pendiente para próxima ronda» del [acta](entrevista-negocio-simulada.md#8-pendiente-para-próxima-ronda) ordena las prioridades: primero lo que el acta no supo responder (8.1), luego lo que abrió (8.2) y por último la confirmación del resto (8.3).
-
-La causa común es que **no se ha hecho ninguna entrevista**: ninguna anomalía tiene testigo NEGOCIO. Por eso ninguna regla protegida puede cerrarse como INTENCIONAL sin datos que la respalden. Las preguntas están agrupadas por persona para que cada conversación se pueda hacer de una vez. Entre paréntesis, la anomalía que desbloquea cada una.
-
-### Puri (gestoría): 11 pendientes, las de mayor impacto económico
-
-1. ¿Con qué cifra se presentó el 303 del 1T de 2026, 603,66 € (resumen) o 736,97 € (CSV)? ¿Cuál importáis en Contaplus? (**A-02**)
-2. Cuando las líneas de una factura no suman su total, ¿qué cifra es la buena? ¿Hay que rectificar las facturas 101, 105, 107 y 108? (A-01; cerrada, pero con decisión pendiente)
-3. ¿Pedisteis que el descuento rebajara el precio de cada línea? La `FA-2026-000105` lo anota con los precios sin rebajar: ¿qué forma vale? ¿Necesitáis el precio de tarifa? (**A-11**)
-4. ¿Qué espera la gestoría en un mes parcial: cuota/30 o cuota/días del mes? ¿Un febrero completo cobra la cuota entera? (**A-13**, con Paco)
-5. ¿Se ha facturado a tipos distintos de 21/10/4 (temporales de 2023-2024, tipos antiguos)? ¿Con qué recargo? (**A-14**)
-6. ¿Se ha reabierto, o se puede tener que reabrir, un ejercicio con tipos antiguos? (**A-16**)
-7. ¿Seguís cuadrando las facturas línea a línea con el mismo Contaplus? ¿Qué trimestre devolvisteis en 2019? (**A-17**)
-8. Una factura `FA-2027-…` con fecha 31/12/2026, ¿en qué ejercicio va? ¿Se acepta? (**A-20**)
-9. ¿Exigís que el orden de los números siga el de las fechas? (**A-21**, con Marga)
-10. ¿La rectificativa debe llevar la fecha de hoy o la de la original? ¿En qué trimestre debe restar? (**A-28**)
-11. ¿Seguís importando el CSV con este formato exacto? ¿Para qué sirve la clave? ¿Admitiría campos entre comillas? (**A-31**, **A-40**)
-
-También a Puri, para decisiones ya clasificadas: el redondeo del medio céntimo en Contaplus (A-18) y qué hacer ante un hueco en la numeración (A-22).
-
-### Paco: 4 pendientes
-
-1. Una base de exactamente 1.000,00 €, ¿lleva el 2 %? ¿Y una de 5.000,00 €, el 2 % o el 5 %? (**A-10**)
-2. ¿Cuentan los portes, los servicios y las líneas negativas para el umbral? ¿Se acepta que 183 unidades salgan más baratas que 182? (**A-09**)
-3. ¿Debe una cuota de más de 1.000 € llevar descuento? ¿Debe constar en la factura? (**A-12**)
-4. ¿Hay casos en que se siga facturando a un cliente dado de baja? (**A-07**, con Marga)
-
-### Marga: 14 pendientes
-
-1. ¿Es `datos/gesfact.db` del repositorio la BD que usa hoy el servidor de la oficina? (**A-04**)
-2. ¿Desde qué carpeta lanzas la remesa? ¿Qué uso le da administración a los datos de referencia? (**A-27**)
-3. ¿Se lanza la remesa de diciembre el 1 de enero? ¿Qué números llevaron las de diciembre de 2025? (**A-20**)
-4. En una baja a mitad de mes, ¿emites la factura manual además de la de la remesa? ¿Pasó con el lavavasos del Hotel Vega Baja? (**A-06**)
-5. Cuando un cliente se da de baja, ¿se dan de baja sus contratos? (**A-07**)
-6. ¿Registráis bajas de contratos con antelación? Un contrato con baja el mes que viene, ¿está de baja o vigente? (**A-08**)
-7. ¿Ponéis líneas negativas en facturas normales? (**A-15**)
-8. ¿Grabáis facturas con fecha anterior a la del día? (**A-21**)
-9. ¿Cómo revisas los NIF? ¿Ha habido facturas devueltas por un NIF erróneo? (**A-32**)
-10. ¿Se puede rectificar una factura cobrada? Una rectificativa, ¿se paga o se compensa? (**A-33**, con Puri)
-11. Un abono, ¿está pendiente de cobro? ¿Usas el panel para seguir los cobros? (**A-34**)
-12. Un cliente con 0 días de pago, ¿vence al contado o a 30 días? (**A-36**)
-13. ¿Sigues haciendo la copia en el pendrive? ¿Con la aplicación cerrada? ¿Dónde se guarda? (**A-42**)
-14. ¿El teléfono de las facturas es el real? ¿Se ha cambiado alguna vez a un cliente de régimen de recargo? (**A-44**)
-
-También a Marga, para decisiones ya clasificadas: el criterio de «mes ya facturado» (A-03), los formatos de número admitidos (A-05) y el uso de cifras de pantallas internas (A-19). Y la pregunta 2 de A-13: cómo se facturó el alta de Bar Nuevo Siglo de febrero de 2026.
-
-### Julián: 5 pendientes
-
-1. ¿Las facturas 101 a 108 y la RE-001 se grabaron con esta versión, con otra o se retocaron en la BD? ¿Se tecleaba el importe y se calculaba la cantidad? (**A-04**)
-2. ¿Qué valor tiene `VENCIMIENTO_DIAS` en el `config.js` del servidor y en el de Marga? ¿Quién lo copia? (**A-37**)
-3. ¿Qué versión de Node hay en la oficina? ¿Quién actualizó el LEEME después de 2019? (**A-43**)
-4. ¿Cómo se dan de alta los contratos, si no hay pantalla? (**A-45**, con Marga) ¿Se versiona la BD a propósito? (**A-41**, con dirección)
-
-### Manoli: 2 pendientes
-
-1. ¿Por qué hay que consultarte antes de tocar el correo? ¿Sigue activa la cuenta de Arsys? (**A-35**)
-2. ¿La contraseña de `config.js` sigue siendo válida? ¿Se usa en otras cuentas? (**A-40**)
-
-### Dirección: 5 pendientes
-
-1. ¿Se da por buena la red de la oficina como de confianza? (**A-39**)
-2. ¿Quién es el responsable de RGPD? ¿Quién tiene copias del repositorio? (**A-41**)
-3. ¿Se descartan la migración a MySQL y los albaranes? ¿Roberto sigue localizable? (**A-48**)
-4. Política de copias de seguridad (**A-42**) y recuperación del envío automático, con Manoli (**A-35**)
-
-### Preguntas añadidas tras el acta simulada
-
-Entre paréntesis, el identificador en la sección 8.2 del acta y la anomalía.
-
-- **Paco:** ¿el primer mes parcial gratis es para todos los clientes nuevos? ¿Quién lo decide y dónde queda escrito? ¿Hay otras bonificaciones? (N-04, **A-49**). Un febrero parcial, ¿se cuenta como mes de 30 días o se calcula días/30? (N-07, A-13)
-- **Marga y Julián:** ¿cómo se evitó que la remesa facturase febrero de 2026 al contrato 4? (N-05, **A-49**). La cuota duplicada de abril está dentro de `FA-2026-000106` y no en dos facturas: ¿cómo cuadra con el relanzamiento? (N-03, A-03)
-- **Marga:** ¿desde cuándo llevas el Excel de cobros, quién lo recibe, dónde se guarda y tiene copia? (N-06, **A-50**). ¿Qué factura se devolvió por NIF erróneo y cuándo? (N-08, A-32). ¿Se ha restaurado alguna vez la copia del pendrive? (N-10, A-42)
-- **Puri:** el abono de los 3,70 € como línea negativa, ¿no contradice tu regla de que solo los envases van en negativo en la serie FA? (N-01, A-01). Las facturas de diciembre de 2025 numeradas en 2026, ¿se van a rectificar o se dejan con una nota? (N-02, A-20). ¿Sabéis que hay meses regalados? (A-49)
-- **Julián:** con Node 12, ¿cómo se instalan las dependencias si el lockfile es v3? ¿Dónde se pueden ejecutar los tests? (N-09, A-43). ¿Dónde está la copia completa de la BD con las 100 primeras facturas de 2026? (N-11, A-04)
-
-Al registrar cada respuesta se anota el **nombre y la fecha** del testimonio (constitución, principio II). Después se cierra la clasificación de la entrada y se actualizan la tabla del §7 y esta lista.
+**Deuda de confirmación.** Antes de **corregir** en la modernización una anomalía cerrada con NEGOCIO-RS, hay que confirmar con la persona real, por escrito y con nombre y fecha, la respuesta RS de la que depende la corrección. El guion sigue siendo el del [acta simulada](entrevista-negocio-simulada.md#8-pendiente-para-próxima-ronda), con las respuestas elegidas en la ratificación como respuesta prevista. Si una persona real contradice una RS, la entrada vuelve a PENDIENTE y el cambio se anota en el §9.
 
 ---
 
 ## 9. Registro de cambios de clasificación
 
 Cada cambio de clasificación se anota aquí con su fecha, su testigo y su motivo. Así ningún cambio queda sobrescrito en silencio. La entrada correspondiente conserva, bajo la viñeta NEGOCIO, la referencia al testimonio.
+
+### 2026-11-16 · Ratificación simulada: cierre de la lista PENDIENTE
+
+- **Testigo aportado:** [ratificacion-negocio-simulada.md](ratificacion-negocio-simulada.md), RS-01 a RS-36. El analista respondió en el papel de cada persona, eligiendo la respuesta más correcta con los criterios del §1 de esa acta, por **instrucción escrita del responsable del proyecto** (sesión del 2026-11-16: «supón que tú eres el cliente y elige las respuestas más correctas»). En el registro figura como testigo **NEGOCIO-RS**.
+- **Justificación de la desviación del principio II:** la constitución (Gobernanza, «Cumplimiento») admite desviaciones justificadas por escrito. La justificación es el aviso de la propia acta. La regla del §0.3 sigue vigente para el testigo NEGOCIO real.
+- **Cambios aplicados:** 36 entradas pasan de PENDIENTE a una clasificación cerrada. En cada una:
+  - la línea de clasificación indica la nueva clase, el RS y «Antes: PENDIENTE», y debajo conserva la hipótesis y la pregunta;
+  - el tratamiento provisional pasa a «acordado en RS-nn»;
+  - la «Decisión pendiente» pasa a «Decisión tomada en RS-nn».
+- **Respecto a la propuesta del acta simulada:** se confirman todas sus propuestas y se cierran las que dejaba abiertas: A-14, A-27, A-39, A-40, A-48, A-49, A-50 y A-53. Discrepancias resueltas:
+  - P02-bis frente a P15 (N-01): el abono va en la factura nueva, no como línea negativa;
+  - P05 frente a QD17 (N-03): la remesa anterior agrupaba por cliente y mes;
+  - P11 frente a QD24 (N-05): el contrato se dio de alta después de la remesa, y la copia es una selección.
+- **Condiciones nuevas:** CN-9 (mes parcial = días/30; mes completo = cuota entera) y CN-10 (todas las líneas cuentan para el umbral; los envases restan).
+- **Incoherencia corregida:** el encabezado del §8 decía «35 PENDIENTES», pero la tabla y el recuento daban 36. A-53 no se había sumado.
+- **Deuda de confirmación:** ver el §8.
 
 ### 2026-11-16 · Propagación del acta simulada (commit `23bb7a5`)
 
