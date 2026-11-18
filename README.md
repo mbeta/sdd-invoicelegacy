@@ -1,5 +1,14 @@
 # GesFact 2.4 — especificación inversa y red de seguridad
 
+> **Proyecto de curso.** Es un ejercicio práctico de **Spec-Driven Development (SDD) aplicado a la ingeniería inversa**, como preparación para modernizar una aplicación legacy. Parte de un sistema heredado que funciona, pero sin documentación, y aplica el método SDD con [Spec Kit](https://github.com/github/spec-kit) en este orden:
+>
+> 1. reconocer el sistema y extraer sus reglas de negocio;
+> 2. registrar las anomalías con evidencia;
+> 3. escribir specs formales del comportamiento actual;
+> 4. congelar ese comportamiento con tests de caracterización antes de tocar una sola línea.
+>
+> La empresa, las personas y el sistema descritos forman parte del escenario del ejercicio.
+
 GesFact es el programa de facturación heredado de Suministros Hidalgo, S.L., hecho con Node, Express 4, EJS y SQLite. Este repositorio contiene el programa **sin modificar** junto con el trabajo de su fase de **documentación y protección**:
 
 - la especificación del comportamiento actual;
